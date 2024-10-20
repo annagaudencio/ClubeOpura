@@ -1,0 +1,36 @@
+/* InputField */
+.input {
+    background: var(--color-background);
+    padding: 12px 24px;
+    min-height: 52px;
+  }
+  
+  .inputData {
+    background: transparent;
+    padding: 8px 0;
+    color: var(--color-background);
+  }
+  
+  input {
+    background: transparent;
+  }
+  
+  .tag {
+    color: var(--color-background);
+    padding: 4px 8px;
+    background-color: var(--color-links);
+    width: fit-content;
+    border-radius: 8px;
+    position: relative;
+    left: 24px;
+    top: 12px;
+    min-height: auto;
+    font-size: 12px;
+  }
+
+  .points-input::before {
+    content: "Quantos pontos esse benefício vale? ";
+    color: #888; /* Ajuste a cor conforme necessário */
+    position: absolute;
+    left: 10px;
+  }

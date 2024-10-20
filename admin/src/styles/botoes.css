@@ -1,0 +1,94 @@
+/* Botões */
+    button,
+    label {
+    padding: 8px 24px;
+    background: var(--color-primaria);
+    border-radius: 1000px;
+    min-height: 48px;
+    min-height: 48px;
+    
+    font-family: var(--font-secondary);
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 100%; /* 16px */
+    letter-spacing: 0.48px;
+    text-transform: uppercase;
+    color: var(--color-links);
+
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px
+    }
+
+    button:hover {
+    background-color: var(--color-links);
+    color: var(--color-primaria);
+    transition: background-color 0.3s ease-in-out;
+    }
+
+    .bt-linha,
+    .bt-cancelar {
+    background: transparent;
+    border: solid 2px var(--color-links);
+    color: var(--color-links);
+    }
+
+    .bt-linha-clara {
+    background: transparent;
+    border: solid 2px var(--color-primaria);
+    color: var(--color-primaria);
+    }
+
+    .bt-cancelar {
+    border: solid 2px var(--color-secundaria);
+    }
+
+
+    .bt-cancelar:hover {
+    opacity: 0.9;
+    background: var(--color-secundaria);
+    }
+
+    .bt-icon {
+    min-width: 40px;
+    min-height: 40px;
+    font-size: 24px;
+    text-align: center;
+    padding: 7px;
+    }
+
+    .bt-marrom {
+    background: var(--color-links);
+    color: var(--color-primaria);
+    border: solid 2px var(--color-links);
+    }
+
+    .bt-marrom:hover {
+    color: var(--color-links);
+    background: var(--color-background);
+    border-color: var(--color-background);
+    transition: 0.5s;
+    }
+
+    .bt-perigo {
+    justify-content: center;
+    align-items: center;
+    background: transparent;
+    border: solid 2px rgba(255, 0, 0, 0.40);
+    color: red;
+    }
+
+/* Estilo para botões grandes */
+    .button-large {
+        padding: 24px 48px;
+        font-size: 18px;
+    }
+
+    label.simples {
+    background: transparent;
+    padding: 2px;
+    color: var(--color-background);
+    border-radius: 0;
+    min-height:fit-content;
+    }

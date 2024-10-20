@@ -1,0 +1,158 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Cores para o tema claro */
+:root {
+  --color-primaria: #EEE5D3;
+  --color-texto: #363434;
+  --color-secundaria: #D9A08F;
+  --color-links: #A95643;
+  --color-cinza: #9D9996;
+  --color-background: #F1F0EA;
+  --color-branco: #FFFFFF;
+  --color-desabilitado: #D9D9D9;
+  --color-branco-12: rgba(255, 255, 255, 0.12);
+  --color-branco-30: rgba(255, 255, 255, 0.3);
+  --color-branco-40: rgba(255, 255, 255, 0.40);
+  --color-bg-preto: #070613;
+
+  --degrade-claro: linear-gradient(180deg, rgba(245, 245, 245, 0.20) 0%, rgba(245, 245, 245, 0.00) 67.5%);
+}
+
+/* Estilos de Tipografia */
+  @font-face {
+    font-family: 'Blair ITC';
+    src: url('/fonts/blair-itc-bold.otf') format('opentype');
+    font-weight: bold; /* Bold */
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: 'Blair ITC';
+    src: url('/fonts/blair-itc-light.otf') format('opentype');
+    font-weight: 300; /* Light */
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: 'Blair ITC';
+    src: url('/fonts/blair-itc-medium.otf') format('opentype');
+    font-weight: 500; /* Medium */
+    font-style: normal;
+  }
+  
+/* Familia Tipográfica */
+  :root {
+    --font-primary: 'Blair ITC', sans-serif; 
+    --font-secondary: 'Work Sans', sans-serif;
+  }
+
+  
+  h1 {
+    font-family: var(--font-primary);
+    font-weight: bold;
+    font-size: 96px;
+    line-height: 100%;
+    letter-spacing: -0.01em;
+  }
+  
+  h2 {
+    font-family: var(--font-primary);
+    font-weight: bold;
+    font-size: 48px;
+    line-height: 100%;
+    letter-spacing: -0.01em;
+  }
+  
+  h3 {
+    font-family: var(--font-primary);
+    font-weight: medium;
+    font-size: 24px;
+    line-height: 124%;
+    letter-spacing: 0.04em;
+  }
+  
+  h4 {
+    font-family: var(--font-secondary);
+    font-weight: medium;
+    font-size: 24px;
+    line-height: 110%;
+    letter-spacing: 0.03em;
+  }
+
+  h5 {
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 100%; /* 18px */
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+  h6 {
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 120%; /* 21.6px */
+    color: var(--color-texto);
+  }
+
+  body, p, a {
+    font-family: var(--font-secondary);
+    font-weight: regular;
+    font-size: 16px;
+    line-height: 120%;
+    font-weight: 400;
+    letter-spacing: 0.25px;
+  }
+
+  a {
+    color: var(--color-secundaria);
+  }
+
+
+/* Corpo */
+  body {
+    margin: 0 !important;
+    background-color: var(--color-background);
+  }
+
+  .bg-textura {
+    background: var(--color-bg-preto) url('/midia/bg-cadastro.svg') no-repeat;
+    background-position: center;
+    background-size: cover;
+  }
+
+  .main-content { 
+    margin-left: 16rem; 
+    height: 100vh;
+  }
+
+  .conteudo { 
+    background: var(--color-bg-preto);
+    border-radius: 32px;
+    height: 100%;
+    box-sizing: border-box;
+    clip-path: margin-box;
+    overflow-y: auto;
+  }
+
+  .video-bv {
+    object-fit: cover;
+  }
+  
+  /* BG de com efeito de vidro */
+  .vidro {
+    background: var(--color-branco-12);
+    backdrop-filter: blur(12px);
+    color: var(--color-background);
+    font-size: 1.5rem;
+  }
+  
+  .glass-effect {
+    backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    height: 100%;
+  }
+

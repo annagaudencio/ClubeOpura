@@ -1,0 +1,99 @@
+.titulo-nav {
+    overflow: hidden;
+    color: var(--color-texto);
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 100%; /* 18px */
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.link-nav {
+    color: var(--color-cinza);
+    font-size: 14px;
+    line-height: 120%; /* 16.8px */
+    letter-spacing: 0.25px;
+}
+
+.link-nav:hover {
+    color: var(--color-links);
+}
+
+
+.link-nav .active,
+.link-nav .active svg,
+.active {
+    color: var(--color-texto);
+}
+
+.link-nav-2 {
+    color: var(--color-texto);
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 100%; /* 16px */
+    letter-spacing: 0.48px;
+    text-transform: uppercase;
+}
+
+.linha-menu {
+    width: 100%;
+    background-color: #D9D9D9;
+    height: 1px;
+    margin: 8px 0;
+}
+
+.bt-menu {
+    background: transparent;
+    padding: 0;
+    color: var(--color-texto);
+}
+
+.bt-menu .mr-2 {
+    margin: 0;
+}
+
+.bt-menu:hover {
+    background: none;
+}
+
+.nav-mob {
+    border-radius: 4px;
+    background: linear-gradient(180deg, rgba(241, 240, 234, 0.00) 0%, #363434 95%);
+    padding: 16px;
+}
+
+.nav-itens {
+    border-radius: var(--Corner-Full, 1000px);
+    border: var(--sds-size-stroke-border) solid var(--Degrad-clara, #F5F5F5);
+    background: rgba(255, 255, 255, 0.25);
+        
+    /* Vidro */
+    backdrop-filter: blur(12px);
+    min-height: 53px;
+    padding: 16px;
+}
+
+.nav-itens .active {
+    color: var(--color-branco);
+}
+
+.nav-itens a {
+    color: rgba(255, 255, 255, 0.50);
+}
+
+
+
+@media (min-width: 1024px) {
+    .nav-mob {
+        display: none;
+    }
+}
+
+/* No arquivo de CSS, caso não use Tailwind, pode adicionar: */
+  @media (max-width: 768px) {
+    .main-content {
+      margin-top: 5rem;
+      margin-left: 0;
+    }
+  }

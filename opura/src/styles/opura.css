@@ -1,0 +1,248 @@
+/* Cores para o tema claro */
+:root {
+    --color-primaria: #EEE5D3;
+    --color-texto: #363434;
+    --color-secundaria: #D9A08F;
+    --color-links: #A95643;
+    --color-cinza: #9D9996;
+    --color-background: #F1F0EA;
+    --color-branco: #FFFFFF;
+    --color-desabilitado: #D9D9D9;
+    --color-branco-12: rgba(255, 255, 255, 0.12);
+    --color-branco-30: rgba(255, 255, 255, 0.3);
+    --color-branco-75: #f1f0eac1;
+    --color-bg-preto: #070613;
+  }
+
+  /* Degradês */
+  :root {
+    --degrade-claro: linear-gradient(180deg, rgba(245, 245, 245, 0.20) 0%, rgba(245, 245, 245, 0.00) 67.5%);
+  }
+
+
+/* Estilos de Tipografia */
+@font-face {
+    font-family: 'Blair ITC';
+    src: url('/fonts/blair-itc-bold.otf') format('opentype');
+    font-weight: bold; /* Bold */
+    font-style: normal;
+  }
+  
+  @font-face {
+    font-family: 'Blair ITC';
+    src: url('/fonts/blair-itc-light.otf') format('opentype');
+    font-weight: 300; /* Light */
+    font-style: normal;
+  }
+  
+  @font-face {
+    font-family: 'Blair ITC';
+    src: url('/fonts/blair-itc-medium.otf') format('opentype');
+    font-weight: 500; /* Medium */
+    font-style: normal;
+  }
+
+:root {
+    --font-primary: 'Blair ITC', sans-serif; 
+    --font-secondary: 'Work Sans', sans-serif;
+  }
+
+
+  
+  h1 {
+    font-family: var(--font-primary);
+    font-weight: bold;
+    font-size: 96px;
+    line-height: 100%;
+    letter-spacing: -0.01em;
+  }
+  
+  h2 {
+    font-family: var(--font-primary);
+    font-weight: bold;
+    font-size: 48px;
+    line-height: 100%;
+    letter-spacing: -0.01em;
+  }
+  
+  h3 {
+    font-family: var(--font-primary);
+    font-weight: medium;
+    font-size: 24px;
+    line-height: 124%;
+    letter-spacing: 0.04em;
+  }
+  
+  h4 {
+    font-family: var(--font-secondary);
+    font-weight: medium;
+    font-size: 24px;
+    line-height: 110%;
+    letter-spacing: 0.03em;
+  }
+
+  h5 {
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 100%; /* 18px */
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+  h6 {
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 120%; /* 21.6px */
+    color: var(--color-texto);
+  }
+  
+  p {
+    font-family: var(--font-secondary);
+    font-weight: regular;
+    font-size: 16px;
+    line-height: 120%;
+    font-weight: 400;
+    letter-spacing: 0.25px;
+  }
+
+  a {
+    color: var(--color-links);
+  }
+
+/* Imagens e Icones */
+
+  img {
+    border-radius: 32px;
+    /* background: #9D9996; */
+  }
+
+  .icones-claros svg{
+    fill: var(--color-background);
+  }
+
+
+
+/* Corpo */
+body {
+  margin: 0 !important;
+  background: var(--color-bg-preto);
+}
+
+.main-content { 
+  margin-left: 16rem; /* Ajusta para a largura da sidebar */
+  height: 100vh;
+}
+
+
+.conteudo { 
+  background: var(--color-primaria);
+  border-radius: 32px;
+  height: 100%;
+  /* box-sizing: border-box;
+  clip-path: margin-box;
+  overflow: auto; */
+}
+
+
+/* Checkbox */
+
+.Checkbox {
+  width: 24px;
+  height: 24px;
+  border: solid 2px var(--color-links);
+}
+
+  
+/* Media query para mobile */
+@media (min-width: 768px) {
+  body {
+      margin: 16px;
+  }
+}
+
+/* Media query para tablets */
+@media (min-width: 1024px) {
+  body {
+      margin: 16px;
+  }
+}
+
+/* Animações */
+#rotating-text {
+  animation: rotateText 10s linear infinite;
+  transform-origin: center;
+}
+
+@keyframes rotateText {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+
+.video-bv {
+  object-fit: cover;
+}
+
+/* BG de com efeito de vidro */
+.vidro {
+  background: var(--color-branco-12);
+  backdrop-filter: blur(12px);
+  color: var(--color-background);
+  font-size: 1.5rem;
+}
+
+
+/* tooltip dos pontos */
+.pontos {
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 120%; /* 16.8px */
+  letter-spacing: 1px;
+}
+
+.tooltip-pontos {
+  mask-image: var(--color-branco-12, rgba(255, 255, 255, 0.12)); 
+  mask-size: cover;
+  mask-repeat: no-repeat;
+  border-radius: 8px;
+
+  /* Alternativa para navegadores que não suportam 'mask-image' */
+  -webkit-mask-image: var(--color-branco-12, rgba(255, 255, 255, 0.12));
+  -webkit-mask-size: cover;
+  -webkit-mask-repeat: no-repeat;
+}
+
+.tooltip-titulo {
+  font-family: var(--font-primary);
+  font-size: 21px;
+}
+
+.glass-effect {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  width: 100%;
+  height: 100%;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+  
+

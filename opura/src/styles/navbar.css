@@ -1,0 +1,119 @@
+.titulo-nav {
+    overflow: hidden;
+    color: var(--color-primaria);
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 100%; /* 18px */
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.link-nav {
+    color: var(--color-cinza);
+    font-size: 14px;
+    line-height: 120%; /* 16.8px */
+    letter-spacing: 0.25px;
+}
+
+.link-nav:active,
+.link-nav:hover {
+    color: var(--color-secundaria);
+}
+
+.link-nav-2 {
+    color: var(--color-primaria);
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 100%; /* 16px */
+    letter-spacing: 0.48px;
+    text-transform: uppercase;
+}
+
+.link-nav-2:hover {
+    color: var(--color-secundaria);
+}
+
+.links-menu-mob {
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 100%; /* 16px */
+    letter-spacing: 0.48px;
+    text-transform: uppercase;
+    color: var(--color-primaria);
+}
+.links-menu-mob:hover,
+.links-menu-mob:active {
+    color: var(--color-links);
+}
+
+.linha {
+    width: 100%;
+    background-color: white;
+    height: 1px;
+}
+
+.linha-menu {
+    width: 100%;
+    background-color: #D9D9D9;
+    height: 1px;
+    margin: 8px 0;
+}
+
+.bt-menu {
+    background: transparent;
+    padding: 0;
+    color: var(--color-primaria);
+}
+
+.bt-menu .mr-2 {
+    margin: 0;
+}
+
+.bt-menu:hover {
+    background: none;
+}
+
+.nav-mob {
+    border-radius: 4px;
+    background: linear-gradient(180deg, rgba(241, 240, 234, 0.00) 0%, #F1F0EA 60%);
+    padding: 16px;
+}
+
+.nav-itens {
+    border-radius: var(--Corner-Full, 1000px);
+    border: var(--sds-size-stroke-border) solid var(--Degrad-clara, #F5F5F5);
+    background: rgba(255, 255, 255, 0.25);
+    /* Vidro */
+    backdrop-filter: blur(12px);
+    min-height: 53px;
+    padding: 16px;
+}
+
+.nav-mob a {
+    color: #363434;
+    opacity: 0.5;
+}
+
+.nav-mob a:active {
+    opacity: 1;
+}
+
+.nav-mob a:hover {
+    opacity: 1;
+    color: var(--color-links);
+}
+
+@media (min-width: 1024px) {
+    .nav-mob {
+        display: none;
+    }
+}
+
+/* No arquivo de CSS, caso não use Tailwind, pode adicionar: */
+  @media (max-width: 768px) {
+    .main-content {
+      margin: 40px 0 0 0;
+    }
+  }

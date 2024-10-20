@@ -1,0 +1,21 @@
+.search-container {
+    @apply p-4;
+  }
+  
+.search-bar {
+    @apply mb-4;
+  }
+  
+.search-input {
+    @apply w-full p-4 pl-[48px] rounded-full focus:outline-none bg-[var(--color-background)];
+  }
+  
+.search-results {
+    @apply flex flex-col gap-2;
+  }
+  
+.result-item {
+    @apply p-4 rounded-2xl border border-[var(--color-cinza)]  space-y-1 hover:border-[--color-secundaria];
+  }
+
+
