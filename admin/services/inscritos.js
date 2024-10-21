@@ -12,8 +12,7 @@ export const createPartner = async (partnerData) => {
       }
     };
 
-    // Confirme se o endpoint correto é `/api/users` ou `/api/partners`
-    const response = await axios.post('/api/users', partnerData, config);
+    const response = await axios.post('/api/enterprise', partnerData, config);
     return response.data;
   } catch (error) {
     console.error('Erro ao criar parceiro:', error.response ? error.response.data : error.message);

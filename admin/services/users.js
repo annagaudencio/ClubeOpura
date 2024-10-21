@@ -85,10 +85,11 @@ export const createUser = async (userData) => {
   }
 };
 
-// Nova função para criar ou atualizar uma enterprise
+// Criar ou atualizar uma enterprise
 export const createOrUpdateEnterprise = async (enterpriseId, enterpriseData) => {
   try {
     const config = getAuthConfig();
+    console.log(enterpriseData, enterpriseId);
     let response;
     if (enterpriseId) {
       // Se já existe um id_enterprise, atualizamos

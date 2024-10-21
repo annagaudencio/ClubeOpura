@@ -23,7 +23,7 @@ export default function Arquiteto() {
         id_enterprise: null,
     });
     const [enterpriseData, setEnterpriseData] = useState({
-        id: '',
+        //id: '',
         cnpj: '',
         name: '',
         address: '',
@@ -75,7 +75,7 @@ export default function Arquiteto() {
 
     const handleSaveChanges = async () => {
         if (!isDataChanged) return;
-
+    
         try {
             // Primeiro, cria ou atualiza a enterprise
             const updatedEnterprise = await createOrUpdateEnterprise(userData.id_enterprise, enterpriseData);
@@ -85,10 +85,10 @@ export default function Arquiteto() {
                 ...userData,
                 id_enterprise: updatedEnterprise.id,
             };
-
+    
             // Atualiza o usuário com os novos dados
             await updateUser(id, updatedUserData);
-
+    
             alert('Alterações salvas com sucesso!');
             setIsDataChanged(false);
             router.reload();
