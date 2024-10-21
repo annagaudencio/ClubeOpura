@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import fetchUserPoints from "/services/points";
-import { fetchUserById, updateUser } from "/services/users";
-import Icon from "../elementos/Icons"
+import { fetchUserById, fetchEnterpriseById } from "/services/users"; 
+import Icon from "../elementos/Icons";
+import axios from "axios";
 
 export default function UserTopo({ userId }) {
     const [user, setUser] = useState({});
@@ -9,48 +10,89 @@ export default function UserTopo({ userId }) {
     const [newPoints, setNewPoints] = useState("");
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [enterprise, setEnterprise] = useState(null);
 
     useEffect(() => {
         const fetchData = async () => {
-            if (userId) {
-                setIsLoading(true);
-                setError(null);
-                try {
-                    const userData = await fetchUserById(userId);
-                    const userPoints = await fetchUserPoints(userId);
+            if (!userId) {
+                console.error("ID de usuário não fornecido.");
+                return;
+            }
 
-                    console.log("Dados do usuário:", userData);
-                    console.log("Dados de pontos do usuário:", userPoints);
-
-                    setUser(userData || {});
-                    const totalPoints = userPoints.reduce((acc, item) => acc + item.points, 0);
-                    setPoints(totalPoints);
-                } catch (error) {
-                    console.error("Erro ao buscar dados do usuário:", error);
-                    setError("Falha ao carregar dados do usuário");
-                } finally {
-                    setIsLoading(false);
+            setIsLoading(true);
+            setError(null);
+            try {
+                // Busca os dados do usuário
+                const userData = await fetchUserById(userId);
+                if (!userData) {
+                    console.error("Dados do usuário não encontrados.");
+                    setError("Usuário não encontrado.");
+                    return;
                 }
+
+                console.log("Dados do usuário:", userData);
+
+                // Se o usuário tiver uma empresa associada, busca os dados da empresa
+                if (userData.id_enterprise) {
+                    const enterpriseData = await fetchEnterpriseById(userData.id_enterprise);
+                    if (enterpriseData) {
+                        console.log("Dados da empresa:", enterpriseData);
+                        setEnterprise(enterpriseData);
+                    } else {
+                        console.warn("Dados da empresa não encontrados.");
+                    }
+                } else {
+                    console.warn("Usuário não tem uma empresa associada.");
+                }
+
+                // Busca os pontos do usuário
+                const userPoints = await fetchUserPoints(userId);
+                // Obtendo o id_user_registered a partir dos dados do usuário
+                const userRegisteredId = userData.id_user_registered;
+                // Filtra os pontos para visualizar apenas os do usuário específico, excluindo os resgatados e expirados
+                const filteredPoints = userPoints.filter(point => point.id_user_registered === userData.id_user_registered && !point.are_expired && !point.were_rescued);
+                // Filtra os pontos para visualizar apenas os do usuário específico
+                
+                if (filteredPoints && Array.isArray(filteredPoints)) {
+                    const totalPoints = filteredPoints.reduce((acc, item) => acc + item.points, 0);
+                    setPoints(totalPoints);
+                    console.log("Dados de pontos do usuário:", userPoints);
+                } else {
+                    console.warn("Nenhum ponto encontrado para o usuário.");
+                }
+
+                setUser(userData);
+            } catch (error) {
+                console.error("Erro ao buscar dados do usuário:", error);
+                setError("Falha ao carregar dados do usuário");
+            } finally {
+                setIsLoading(false);
             }
         };
 
         fetchData();
     }, [userId]);
 
-    const handleAddPoints = async () => {
+    const handleAddPoints = async (operation) => {
         if (!newPoints) return;
         try {
-            const updatedPoints = points + parseInt(newPoints, 10);
+            const updatedPoints = operation === 'add' ? points + parseInt(newPoints, 10) : points - parseInt(newPoints, 10);
             setPoints(updatedPoints);
             setNewPoints("");
+
+            // Chama o handleSavePoints para salvar os pontos no backend
+            await handleSavePoints(updatedPoints);
         } catch (error) {
             console.error("Erro ao adicionar pontos:", error);
         }
     };
 
-    const handleSavePoints = async () => {
+    const handleSavePoints = async (updatedPoints) => {
         try {
-            const response = await updateUser(userId, { points });
+            // Atualiza os pontos no servidor
+            const response = await axios.put(`/api/points/${userId}`, { points: updatedPoints }, {
+                headers: { Authorization: `Bearer ${localStorage.getItem('access_token')}` }
+            });
             console.log("Resposta do backend ao salvar pontos:", response);
             alert("Pontos salvos com sucesso!");
         } catch (error) {
@@ -92,7 +134,10 @@ export default function UserTopo({ userId }) {
               </div>
               <button 
               className='bt-icon h-[52px] w-[52px]'
-              onClick={handleAddPoints}><Icon name="plus" /></button>
+              onClick={() => handleAddPoints('add')}><Icon name="plus" /></button>
+              <button 
+              className='bt-icon h-[52px] w-[52px]'
+              onClick={() => handleAddPoints('subtract')}><Icon name="minus" /></button>
             </div>
           </div>
 

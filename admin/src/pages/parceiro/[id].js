@@ -6,14 +6,13 @@ import UserTopo from "../../elementos/userTopo.js";
 import UserData from "../../elementos/userDados.js";
 import UserResgates from "../../elementos/userResgates.js";
 import UserApagar from "../../elementos/userApagar.js";
-import { fetchUserById, updateUser, createOrUpdateEnterprise } from '/services/users';
+import { fetchUserById, updateUser, createOrUpdateEnterprise, fetchEnterpriseById } from '/services/users';
 
 export default function Arquiteto() {
     const router = useRouter();
     const { id } = router.query;
 
     const [userData, setUserData] = useState({
-        id: '',
         name: '',
         phone: '',
         email: '',
@@ -23,7 +22,6 @@ export default function Arquiteto() {
         id_enterprise: null,
     });
     const [enterpriseData, setEnterpriseData] = useState({
-        //id: '',
         cnpj: '',
         name: '',
         address: '',
@@ -34,21 +32,38 @@ export default function Arquiteto() {
     });
     
     const [isDataChanged, setIsDataChanged] = useState(false);
+    const [userDataOriginal, setUserDataOriginal] = useState({});
+    const [enterpriseDataOriginal, setEnterpriseDataOriginal] = useState({});
 
     useEffect(() => {
         const loadUserData = async () => {
             if (id) {
                 try {
+                    // Busca os dados do usuário com base no ID
                     const data = await fetchUserById(id);
+                    
+                    // Atualiza os dados do usuário e mantém os dados originais
                     setUserData({
                         ...data,
                         password: '', // Por segurança, não carregamos a senha
                     });
-                    if (data.enterprise) {
-                        setEnterpriseData({
-                            ...data.enterprise,
-                            id: data.id_enterprise,
-                        });
+                    setUserDataOriginal({
+                        ...data,
+                        password: '', 
+                    });
+
+                    // Se o usuário tiver uma empresa associada, busca os dados da empresa
+                    if (data.id_enterprise) {
+                        const enterpriseData = await fetchEnterpriseById(data.id_enterprise);
+                        if (enterpriseData) {
+                            // Atualiza os dados da empresa e mantém os dados originais
+                            setEnterpriseData({
+                                ...enterpriseData,
+                            });
+                            setEnterpriseDataOriginal({
+                                ...enterpriseData,
+                            });
+                        }
                     }
                 } catch (error) {
                     console.error("Erro ao carregar dados do usuário:", error);
@@ -63,6 +78,28 @@ export default function Arquiteto() {
         setIsDataChanged(true);
     }, [userData, enterpriseData]);
 
+    // Função para limpar e manter os dados corretamente
+    const prepareData = (newData, oldData) => {
+        let preparedData = {};
+        
+        for (let key in newData) {
+            // Se o campo não está vazio, usamos o novo valor. Caso contrário, mantemos o valor antigo.
+            if (newData[key] !== '') {
+                // Para o CNPJ, sanitizamos o valor antes de atribuí-lo
+                preparedData[key] = key === 'cnpj' ? sanitizeCNPJ(newData[key]) : newData[key];
+            } else {
+                preparedData[key] = oldData[key]; // Mantém o valor antigo
+            }
+        }
+
+        return preparedData;
+    };
+
+    // Função para sanitizar o CNPJ, removendo caracteres especiais
+    const sanitizeCNPJ = (cnpj) => {
+        return cnpj.replace(/[.\-\/\s]/g, ''); // Remove . - / e espaços
+    };
+
     const handleUserDataChange = (e) => {
         const { name, value } = e.target;
         setUserData(prev => ({ ...prev, [name]: value }));
@@ -74,24 +111,37 @@ export default function Arquiteto() {
     };
 
     const handleSaveChanges = async () => {
-        if (!isDataChanged) return;
-    
+        if (!isDataChanged) return; // Verifica se houve alguma mudança nos dados
+
         try {
-            // Primeiro, cria ou atualiza a enterprise
-            const updatedEnterprise = await createOrUpdateEnterprise(userData.id_enterprise, enterpriseData);
+            // Prepara os dados da empresa removendo caracteres inválidos e mantendo os campos preenchidos
+            const updatedEnterpriseData = prepareData(enterpriseData, enterpriseDataOriginal);
+
+            // Prepara os dados do usuário removendo campos vazios e mantendo os originais
+            const updatedUserData = prepareData(userData, userDataOriginal);
             
-            // Atualiza o userData com o novo id_enterprise se necessário
-            const updatedUserData = {
-                ...userData,
-                id_enterprise: updatedEnterprise.id,
+            // Atualiza ou cria a empresa conforme o ID da empresa
+            let updatedEnterprise;
+            if (userData.id_enterprise) {
+                // Se o ID da empresa já existir, atualizamos a empresa existente
+                updatedEnterprise = await createOrUpdateEnterprise(userData.id_enterprise, updatedEnterpriseData);
+            } else {
+                // Caso contrário, criamos uma nova empresa e associamos ao usuário
+                updatedEnterprise = await createOrUpdateEnterprise(null, updatedEnterpriseData);
+            }
+
+            // Agora associamos a empresa ao usuário e salvamos os dados do usuário
+            const finalUserData = {
+                ...updatedUserData,
+                id_enterprise: updatedEnterprise.id, // Certifica-se de que a empresa foi associada ao usuário
             };
-    
-            // Atualiza o usuário com os novos dados
-            await updateUser(id, updatedUserData);
-    
+
+            // Atualiza os dados do usuário com base no ID do usuário
+            await updateUser(userData.id, finalUserData); // Garantimos que o usuário correto seja atualizado
+
             alert('Alterações salvas com sucesso!');
             setIsDataChanged(false);
-            router.reload();
+            router.reload(); // Recarrega a página para refletir os dados atualizados
         } catch (error) {
             console.error('Erro ao salvar alterações:', error);
             alert('Erro ao salvar alterações. Por favor, tente novamente.');
@@ -118,10 +168,10 @@ export default function Arquiteto() {
                 <div className="w-full md:h-5/6 text-white flex flex-col md:flex-row">
                     <div className="md:w-1/2">
                         <UserData 
-                            userData={userData}
-                            enterpriseData={enterpriseData}
-                            onUserDataChange={handleUserDataChange}
-                            onEnterpriseDataChange={handleEnterpriseDataChange}
+                            userData={userData} 
+                            enterpriseData={enterpriseData} 
+                            onUserDataChange={handleUserDataChange} 
+                            onEnterpriseDataChange={handleEnterpriseDataChange} 
                         />
                     </div>
 

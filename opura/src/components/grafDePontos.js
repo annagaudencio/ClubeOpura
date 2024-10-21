@@ -1,8 +1,8 @@
 import React from 'react';
 import Tooltip from '../elementos/Tooltip.js';
 
-const UserPointsChart = ({ pontosTotais = 1200, pontosAtual }) => { 
-  const percent = Math.min((pontosAtual / pontosTotais) * 10, 100); 
+const UserPointsChart = ({ pontosTotais = 3200, pontosAtual }) => { 
+  const percent = Math.min((pontosAtual / pontosTotais) * 100, 100); 
   const tooltipWidth = 45;
 
   return (

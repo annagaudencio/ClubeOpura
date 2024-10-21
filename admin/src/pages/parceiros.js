@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 import { useEffect, useState } from "react";
-import { fetchUsers } from "/services/users";
+import { fetchUsers, fetchUserById } from "/services/users";  // Certifique-se de que o caminho está correto
 
 import Head from "next/head";
 import Navbar from "../components/navbar";
@@ -11,23 +11,28 @@ import fetchUserPoints from "/services/points";
 
 const Parceiros = () => {
   const [partners, setPartners] = useState([]);
+  const [admins, setAdmins] = useState([]);
   const router = useRouter();
 
   useEffect(() => {
-    const loadPartners = async () => {
+    const loadUsers = async () => {
       try {
         // Fetch all users
         const users = await fetchUsers();
         
-        // Filter out admins and company users
+        // Filtra administradores e parceiros
+        const adminUsers = users.filter(user => user.is_adm);
         const nonAdminPartners = users.filter(user => !user.is_adm && user.type !== 'company');
         
-        // Fetch and calculate valid points for each partner
+        // Fetch e calcula pontos válidos para cada parceiro
         const partnersWithPoints = await Promise.all(
           nonAdminPartners.map(async (partner) => {
+            const userData = await fetchUserById(partner.id);
+            const userRegisteredId = userData.id_user_registered;
+
             const pointsData = await fetchUserPoints(partner.id);
             const validPoints = pointsData
-              .filter(point => !point.are_expired && !point.were_rescued)
+              .filter(point => point.id_user_registered === userRegisteredId && !point.are_expired && !point.were_rescued)
               .reduce((total, point) => total + point.points, 0);
             
             return {
@@ -37,13 +42,14 @@ const Parceiros = () => {
           })
         );
 
+        setAdmins(adminUsers);
         setPartners(partnersWithPoints);
       } catch (error) {
-        console.error("Erro ao carregar os parceiros:", error);
+        console.error("Erro ao carregar os usuários:", error);
       }
     };
 
-    loadPartners();
+    loadUsers();
   }, []);
 
   const handleAddParceiro = () => {
@@ -53,7 +59,7 @@ const Parceiros = () => {
   return (
     <>
       <Head>
-        <title>Parceiros</title>
+        <title>Parceiros e Administradores</title>
       </Head>
       <Navbar />
 
@@ -68,8 +74,11 @@ const Parceiros = () => {
             </button>
           </div>
 
-          {/* Display Partners */}
-          <div className="partners-list space-y-4">
+          {/* Lista de Parceiros */}
+          <div className="partners-list space-y-4 mt-8">
+            <h4 className="text-[20px] md:text-[28px] text-[var(--color-primaria)]">
+              Parceiros
+            </h4>
             {partners.length > 0 ? (
               partners.map((partner) => (
                 <InscritoItem
@@ -81,6 +90,25 @@ const Parceiros = () => {
               ))
             ) : (
               <p>Nenhum parceiro encontrado</p>
+            )}
+          </div>
+
+          {/* Lista de Administradores */}
+          <div className="admins-list space-y-4 mt-8">
+            <h4 className="text-[20px] md:text-[28px] text-[var(--color-primaria)]">
+              Administradores
+            </h4>
+            {admins.length > 0 ? (
+              admins.map((admin) => (
+                <InscritoItem
+                  key={admin.id}
+                  id={admin.id}
+                  name={admin.name}
+                  points={"Administrador"} // Administradores não possuem pontos
+                />
+              ))
+            ) : (
+              <p>Nenhum administrador encontrado</p>
             )}
           </div>
         </div>

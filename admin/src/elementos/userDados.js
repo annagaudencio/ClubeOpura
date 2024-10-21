@@ -54,21 +54,22 @@ const UserData = ({ userData, enterpriseData, onUserDataChange, onEnterpriseData
                             value={formatDate(userData.birthday)}
                             onChange={onUserDataChange}
                         />
-                        <div className="py-4"><a href="#" onClick={handleResetPassword}>Redefinir senha</a></div>
+                        {/* <div className="py-4"><a href="#" onClick={handleResetPassword}>Redefinir senha</a></div> */}
                     </div>
 
+                    {/* Seção de Trabalho */}
                     <div className='py-8'>
                         <h5 className='col-span-2 text-[var(--color-primaria)]'>Trabalho:</h5>
                         <InputData
-                        label="CNPJ"
-                        name="cnpj"
-                        value={enterpriseData?.cnpj || ''}
-                        onChange={onEnterpriseDataChange}
+                            label="CNPJ"
+                            name="cnpj"
+                            value={enterpriseData?.cnpj || ''} 
+                            onChange={onEnterpriseDataChange}
                         />
                         <InputData
                             label="Nome da Empresa"
                             name="name"
-                            value={enterpriseData.name || ''}
+                            value={enterpriseData?.name || ''} 
                             onChange={onEnterpriseDataChange}
                         />
                         <InputData
@@ -79,33 +80,33 @@ const UserData = ({ userData, enterpriseData, onUserDataChange, onEnterpriseData
                         />
                     </div>
 
+                    {/* Seção de Endereço */}
                     <div className='py-8'>
                         <h5 className='col-span-2 text-[var(--color-primaria)]'>Endereço:</h5>
                         <InputData 
                             label="CEP" 
                             name="cep"
-                            value={enterpriseData.cep || ''} 
+                            value={enterpriseData?.cep || ''} 
                             onChange={onEnterpriseDataChange} 
                         />
                         <InputData 
                             label="Logradouro" 
                             name="address"
-                            value={enterpriseData.address || ''} 
+                            value={enterpriseData?.address || ''} 
                             onChange={onEnterpriseDataChange} 
                         />
                         <InputData 
                             label="Cidade" 
                             name="city"
-                            value={enterpriseData.city || ''} 
+                            value={enterpriseData?.city || ''} 
                             onChange={onEnterpriseDataChange} 
                         />
                         <InputData 
                             label="Estado" 
                             name="state"
-                            value={enterpriseData.state || ''} 
+                            value={enterpriseData?.state || ''} 
                             onChange={onEnterpriseDataChange} 
                         />
-                        
                     </div>
                 </form>
             </div>
