@@ -1,13 +1,13 @@
 import { useRouter } from 'next/router';
 import { useEffect, useState } from "react";
-import { fetchUsers, fetchUserById } from "/services/users";  // Certifique-se de que o caminho está correto
+
+import { fetchUsers, fetchUserById } from "/services/users"; 
+import { fetchUserPoints, updateUserPoints } from "/services/points";
 
 import Head from "next/head";
 import Navbar from "../components/navbar";
 import InscritoItem from "../components/itemParceiros";
 import Icon from '../elementos/Icons';
-
-import fetchUserPoints from "/services/points";
 
 const Parceiros = () => {
   const [partners, setPartners] = useState([]);
@@ -94,10 +94,11 @@ const Parceiros = () => {
           </div>
 
           {/* Lista de Administradores */}
-          <div className="admins-list space-y-4 mt-8">
-            <h4 className="text-[20px] md:text-[28px] text-[var(--color-primaria)]">
+          <div className="admins-list space-y-4 mt-8 text-[var(--color-primaria)]">
+            <h4 className="text-[20px] md:text-[28px] px-4">
               Administradores
             </h4>
+            <p className='text-white/70 text-[14px] px-4'>Não é recomendado alterar os dados desses usuário.</p>
             {admins.length > 0 ? (
               admins.map((admin) => (
                 <InscritoItem

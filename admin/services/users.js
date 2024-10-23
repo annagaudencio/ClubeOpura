@@ -25,17 +25,6 @@ export const fetchEnterpriseById = async (id) => {
 };  
 
 
-// Função para editar um usuário existente
-// export const updateUser = async (id, userData) => {
-//   try {
-//     const config = getAuthConfig();
-//     const response = await axios.put(`/api/users/${id}`, userData, config);
-//     return response.data;
-//   } catch (error) {
-//     console.error('Erro ao editar usuário:', error.response ? error.response.data : error.message);
-//     throw error;
-//   }
-// };
 export const updateUser = async (userId, userData) => {
   try {
       const config = getAuthConfig(); // Inclui o token de autenticação, se necessário

@@ -16,7 +16,7 @@ export default function Arquiteto() {
         name: '',
         phone: '',
         email: '',
-        password: '',
+        password: '',  // Para alterar a senha
         birthday: '',
         profession: '',
         id_enterprise: null,
@@ -78,7 +78,7 @@ export default function Arquiteto() {
         setIsDataChanged(true);
     }, [userData, enterpriseData]);
 
-    // Função para limpar e manter os dados corretamente
+    // Função para preparar os dados para salvamento, garantindo que campos vazios sejam preenchidos com valores originais
     const prepareData = (newData, oldData) => {
         let preparedData = {};
         
@@ -90,6 +90,11 @@ export default function Arquiteto() {
             } else {
                 preparedData[key] = oldData[key]; // Mantém o valor antigo
             }
+        }
+
+        // Remover a senha do objeto caso não tenha sido modificada
+        if (!newData.password) {
+            delete preparedData.password;
         }
 
         return preparedData;
@@ -110,35 +115,72 @@ export default function Arquiteto() {
         setEnterpriseData(prev => ({ ...prev, [name]: value }));
     };
 
+    
     const handleSaveChanges = async () => {
-        if (!isDataChanged) return; // Verifica se houve alguma mudança nos dados
-
+        // Inicialize pointsModified se ela ainda não estiver definida
+        const isPointsModified = typeof pointsModified !== 'undefined' ? pointsModified : false;
+    
+        if (!isDataChanged && !isPointsModified) {
+            console.log("Nenhuma alteração detectada.");
+            return;
+        }
+    
         try {
-            // Prepara os dados da empresa removendo caracteres inválidos e mantendo os campos preenchidos
-            const updatedEnterpriseData = prepareData(enterpriseData, enterpriseDataOriginal);
-
-            // Prepara os dados do usuário removendo campos vazios e mantendo os originais
-            const updatedUserData = prepareData(userData, userDataOriginal);
-            
-            // Atualiza ou cria a empresa conforme o ID da empresa
-            let updatedEnterprise;
-            if (userData.id_enterprise) {
-                // Se o ID da empresa já existir, atualizamos a empresa existente
-                updatedEnterprise = await createOrUpdateEnterprise(userData.id_enterprise, updatedEnterpriseData);
-            } else {
-                // Caso contrário, criamos uma nova empresa e associamos ao usuário
-                updatedEnterprise = await createOrUpdateEnterprise(null, updatedEnterpriseData);
+            // Se houver mudanças nos dados da empresa/usuário
+            if (isDataChanged) {
+                // Prepara os dados da empresa removendo caracteres inválidos e mantendo os campos preenchidos
+                const updatedEnterpriseData = prepareData(enterpriseData, enterpriseDataOriginal);
+    
+                // Prepara os dados do usuário removendo campos vazios e mantendo os originais
+                const updatedUserData = prepareData(userData, userDataOriginal);
+    
+                // Atualiza ou cria a empresa conforme o ID da empresa
+                let updatedEnterprise;
+                if (userData.id_enterprise) {
+                    // Se o ID da empresa já existir, atualizamos a empresa existente
+                    updatedEnterprise = await createOrUpdateEnterprise(userData.id_enterprise, updatedEnterpriseData);
+                } else {
+                    // Caso contrário, criamos uma nova empresa e associamos ao usuário
+                    updatedEnterprise = await createOrUpdateEnterprise(null, updatedEnterpriseData);
+                }
+    
+                // Agora associamos a empresa ao usuário e salvamos os dados do usuário
+                const finalUserData = {
+                    ...updatedUserData,
+                    id_enterprise: updatedEnterprise.id, // Certifica-se de que a empresa foi associada ao usuário
+                };
+    
+                // Atualiza os dados do usuário com base no ID do usuário
+                await updateUser(userData.id, finalUserData); // Garantimos que o usuário correto seja atualizado
+    
+                console.log('Dados do usuário e empresa atualizados com sucesso!');
             }
-
-            // Agora associamos a empresa ao usuário e salvamos os dados do usuário
-            const finalUserData = {
-                ...updatedUserData,
-                id_enterprise: updatedEnterprise.id, // Certifica-se de que a empresa foi associada ao usuário
-            };
-
-            // Atualiza os dados do usuário com base no ID do usuário
-            await updateUser(userData.id, finalUserData); // Garantimos que o usuário correto seja atualizado
-
+    
+            // Se houver mudanças nos pontos
+            if (isPointsModified) {
+                const pointToUpdate = pointsData[0];
+    
+                const updatedPointPayload = {
+                    points: points,
+                    are_expired: pointToUpdate.are_expired || false,
+                    were_rescued: pointToUpdate.were_rescued || false,
+                    rescued_date: pointToUpdate.rescued_date || null,
+                    createdAt: pointToUpdate.createdAt,
+                    id_user_registered: pointToUpdate.id_user_registered
+                };
+    
+                console.log("Payload enviado para atualizar pontos:", updatedPointPayload);
+    
+                const response = await updateUserPoints(pointToUpdate.id, updatedPointPayload);
+                console.log("Resposta do servidor ao atualizar pontos:", response);
+    
+                if (response.status === 200) {
+                    console.log('Pontos atualizados com sucesso!');
+                } else {
+                    alert(`Erro ao atualizar pontos: ${response.statusText}`);
+                }
+            }
+    
             alert('Alterações salvas com sucesso!');
             setIsDataChanged(false);
             router.reload(); // Recarrega a página para refletir os dados atualizados
@@ -147,6 +189,7 @@ export default function Arquiteto() {
             alert('Erro ao salvar alterações. Por favor, tente novamente.');
         }
     };
+    
 
     const getWhatsappLink = (phone) => {
         const formattedPhone = phone.replace(/\D/g, '');
