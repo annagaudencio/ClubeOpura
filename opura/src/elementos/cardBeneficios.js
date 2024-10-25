@@ -1,15 +1,37 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ResgateModal from './ResgateModal';
+import api from '/services/api'; 
 
-export default function CardBeneficios({ 
-  variant, 
+export default function CardBeneficios({  
   titulo, 
   descricao, 
   pontos, 
   bgImage, 
-  pontosUsuario 
+  pontosUsuario,
+  userId, 
 }) {
   const [showModal, setShowModal] = useState(false);
+  const [beneficioId, setBeneficioId] = useState(null);
+
+  useEffect(() => {
+    const fetchBenefitId = async () => {
+      try {
+        const response = await api.get('/benefits');
+        const benefit = response.data.find(b => b.title === titulo);  
+        if (benefit) {
+          setBeneficioId(benefit.id);  // Armazena o ID do benefício
+          console.log('ID do benefício encontrado:', benefit.id);
+          console.log("userId no componente pai:", userId)
+        } else {
+          console.warn('Benefício com título não encontrado:', titulo);
+        }
+      } catch (error) {
+        console.error("Erro ao buscar o ID do benefício:", error);
+      }
+    };
+    fetchBenefitId();
+  }, [titulo]);
+  
 
   // Função para abrir o modal
   const handleResgatar = () => {
@@ -27,9 +49,6 @@ export default function CardBeneficios({
   // Determinar se o benefício está disponível para resgate
   const disponivelParaResgate = pontosUsuario >= pontos;
 
-  // Determinar qual variante do card deve ser exibida
-  const cardVariant = disponivelParaResgate ? 'comBotao' : 'comPontos';
-
   return (
     <div className="w-full min-w-72 max-w-xs bg-transparent rounded-[32px] overflow-hidden">
       {/* Imagem ou área para o conteúdo do benefício */}
@@ -42,8 +61,7 @@ export default function CardBeneficios({
           backgroundRepeat: 'no-repeat',
         }}
       >
-        {/* Botão de resgate ativo quando disponível */}
-        {cardVariant === 'comBotao' && (
+        {disponivelParaResgate && (
           <button 
             className="absolute top-4 left-4" 
             variant="default" 
@@ -53,8 +71,7 @@ export default function CardBeneficios({
           </button>
         )}
 
-        {/* Exibição dos pontos restantes */}
-        {cardVariant === 'comPontos' && (
+        {!disponivelParaResgate && (
           <div className="absolute bottom-4 left-4 right-4 flex justify-between items-center text-sm text-[var(--color-links)] px-2">
             <span>Restam</span>
             <span className="font-bold">{pontosRestantes}</span>
@@ -63,7 +80,6 @@ export default function CardBeneficios({
         )}
       </div>
 
-      {/* Título e descrição do benefício */}
       <div className="p-4">
         <div className='w-full justify-start items-center gap-2 inline-flex'>
           <h6 className="w-2/3 text-[18px]">{titulo}</h6>
@@ -77,14 +93,12 @@ export default function CardBeneficios({
         </p>
       </div>
 
-      {/* Modal de Resgate */}
       {showModal && (
         <ResgateModal 
-          titulo={titulo} 
-          descricao={descricao} 
-          pontos={pontos} 
-          onClose={handleCloseModal} 
-        />
+        beneficio={{ titulo, descricao, pontos, id: beneficioId }} 
+        userId={userId}  
+        onClose={handleCloseModal} 
+      />      
       )}
     </div>
   );

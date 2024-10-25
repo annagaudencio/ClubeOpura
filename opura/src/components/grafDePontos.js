@@ -1,23 +1,34 @@
 import React from 'react';
 import Tooltip from '../elementos/Tooltip.js';
 
-const UserPointsChart = ({ pontosTotais = 3200, pontosAtual }) => { 
+const UserPointsChart = ({ pontosAtual }) => { 
+  const pontosTotais = 500; // Definindo pontosTotais como 500 diretamente aqui
+
+  // Verificação dos valores no console para garantir que estão corretos
+  console.log("Pontos Atual:", pontosAtual);
+  console.log("Pontos Totais:", pontosTotais);
+
+  // Cálculo correto do percentual com base no total de pontos e pontos atuais
   const percent = Math.min((pontosAtual / pontosTotais) * 100, 100); 
-  const tooltipWidth = 45;
+  console.log("Percentual calculado:", percent);
 
   return (
-    <div className="relative w-full h-20 bg-[var(--color-branco-12)] bg-[url('/midia/textura-barra.svg')] rounded-full">
+    <div className='w-full relative'>
+      <div className="w-full h-20 bg-[var(--color-branco-12)] bg-[url('/midia/textura-barra.svg')] rounded-full overflow-hidden absolute">
       {/* Barra de progresso */}
       <div 
-        className="absolute top-0 left-0 h-full bg-[var(--color-primaria)] rounded-full"
+        className="top-0 left-0 h-full bg-[var(--color-primaria)] rounded-full"
         style={{ width: `${percent}%` }}
-      ></div>
+      >
 
-      {/* Tooltip de Pontuação */}
+      </div>
+    </div>
+
+    {/* Tooltip de Pontuação */}
       <div 
-        className='flex w-40px h-[118px] justify-end items-end inline-flex' 
+        className='relative flex w-40px h-[118px] justify-end items-end inline-flex' 
         style={{ 
-          width: `calc(${percent}% + ${tooltipWidth}px)`,
+          width: `calc(${percent}% + 45px)`,
           maxWidth: '100%' 
         }}
       >
@@ -29,6 +40,7 @@ const UserPointsChart = ({ pontosTotais = 3200, pontosAtual }) => {
             position="top" 
           />
         </div>
+        
         {/* Forma abaixo da Tooltip */}
         <div className='absolute opacity-25'>
           <svg xmlns="http://www.w3.org/2000/svg" width="91" height="74" viewBox="0 0 91 74" fill="none">
@@ -50,7 +62,12 @@ const UserPointsChart = ({ pontosTotais = 3200, pontosAtual }) => {
           </svg>
         </div>
       </div>
+
     </div>
+
+
+
+    
   );
 };
 

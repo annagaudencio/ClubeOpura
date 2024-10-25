@@ -18,4 +18,14 @@ export const getBenefits = async () => {
   }
 };
 
+export const redeemBenefit = async (id_benefit, id_user_registered) => {
+  return api.post('/redeemedBenefits', {
+    id_user: id_user_registered,
+    id_benefits: id_benefit,
+    points_used: 300,  // Aqui você pode ajustar com os pontos que o usuário está resgatando
+    rescued_date: new Date().toISOString(),
+  });
+};
+
+
 

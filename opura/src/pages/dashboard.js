@@ -16,32 +16,33 @@ export default function Dashboard() {
   const [userName, setUserName] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const scrollRef = useRef(null);
+  const [idUserRegistered, setIdUserRegistered] = useState(null);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
       const userInfo = getUserInfoFromToken(token);
-      
       if (userInfo && userInfo.id) {
-        // Usa o ID para buscar o nome completo
+        // Buscar os dados do usuário para obter o id_user_registered
         getUserDataById(userInfo.id)
-          .then((data) => setUserName(data.name || userInfo.email))
+          .then((data) => {
+            setUserName(data.name || userInfo.email);
+            setIdUserRegistered(data.id_user_registered); // Usando id_user_registered do usuário corretamente
+          })
           .catch((error) => console.error("Erro ao buscar dados do usuário:", error));
       } else {
-        setUserName(userInfo.email || "Usuário");
+        setUserName("Usuário");
       }
     }
-    
-    setIsLoading(true);
-    getUserPoints()
-      .then((data) => setPontosUsuario(data))
-      .catch((error) => console.error("Erro ao obter pontos do usuário:", error));
-      
-    getTotalPoints()
-      .then((data) => setPontosTotais(data))
-      .catch((error) => console.error("Erro ao obter pontos totais:", error));
   }, []);
 
+  useEffect(() => {
+    if (idUserRegistered) {
+      getUserPoints(idUserRegistered)
+        .then((data) => setPontosUsuario(data))
+        .catch((error) => console.error("Erro ao obter pontos do usuário:", error));
+    }
+  }, [idUserRegistered]);
   // Funções para rolagem de cards de benefícios
   const handleMouseDown = (e) => {
     e.preventDefault();
