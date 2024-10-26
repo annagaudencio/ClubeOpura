@@ -1,10 +1,14 @@
 import axios from "axios";
 
-//const API_URL = "/api/auth";
+const API_URL = "/api";
+
+const ADMIN_EMAIL = process.env.NEXT_PUBLIC_ADMIN_EMAIL || 'admin@teste.com';
+const ADMIN_PASSWORD = process.env.NEXT_PUBLIC_ADMIN_PASSWORD || 'senhaSeguraAdmin123';
+
 
 export const login = async (email, password) => {
   try {
-    const response = await axios.post("/api/auth/login", { email, password });
+    const response = await axios.post(`${API_URL}/auth/login`, { email, password });
     if (response.data.access_token) {
       localStorage.setItem("token", response.data.access_token);
       localStorage.setItem("userName", response.data.name);
@@ -17,10 +21,24 @@ export const login = async (email, password) => {
   }
 };
 
+export const loginAdmin = async () => {
+  try {
+    const response = await axios.post(`${API_URL}/auth/login`, { email: ADMIN_EMAIL, password: ADMIN_PASSWORD });
+    console.log("Admin login response:", response);
+    if (response.data.access_token) {
+      localStorage.setItem("token", response.data.access_token);
+      return response.data.access_token;
+    }
+    throw new Error("Falha ao obter token de admin");
+  } catch (error) {
+    console.error("Erro no login do admin:", error);
+    throw error;
+  }
+};
+
 export const logout = () => {
   localStorage.removeItem("token");
 };
-
 
 export function getUserInfoFromToken(token) {
   if (!token) return null;
@@ -47,7 +65,7 @@ export function getUserInfoFromToken(token) {
 //Atualizar senha
 export const recoverPassword = async (email) => {
   try {
-    const response = await axios.post('/api/auth/recover', { email });
+    const response = await axios.post(`${API_URL}/auth/recover`, { email });
     return response.data;
   } catch (error) {
     console.error('Erro na recuperação de senha:', error.response ? error.response.data : error.message);
@@ -57,7 +75,7 @@ export const recoverPassword = async (email) => {
 
 export const verifyResetCode = async (email, code) => {
   try {
-    const response = await axios.post('/api/verify-reset-code', { email, code });
+    const response = await axios.post(`${API_URL}/verify-reset-code`, { email, code });
     return response.data;
   } catch (error) {
     console.error('Erro ao verificar código:', error.response ? error.response.data : error.message);
@@ -67,7 +85,7 @@ export const verifyResetCode = async (email, code) => {
 
 export const resetPassword = async (email, token, newPassword) => {
   try {
-    const response = await axios.post('/api/reset-password', { email, token, newPassword });
+    const response = await axios.post(`${API_URL}/reset-password`, { email, token, newPassword });
     return response.data;
   } catch (error) {
     console.error('Erro ao redefinir senha:', error.response ? error.response.data : error.message);
@@ -75,6 +93,50 @@ export const resetPassword = async (email, token, newPassword) => {
   }
 };
 
+export const createUser = async (userData, token) => {
+  try {
+    const response = await axios.post(`${API_URL}/users`, userData, {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      }
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Erro ao criar usuário:', error.response ? error.response.data : error.message);
+    return { success: false, error: error.response ? error.response.data : error.message };
+  }
+};
+
+export const createEnterprise = async (enterpriseData, token) => {
+  try {
+    const response = await axios.post(`${API_URL}/enterprise`, enterpriseData, {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
+    console.log("Resposta da criação de empresa:", response);
+    return response.data; // Verifique se `response.data` contém o ID esperado
+  } catch (error) {
+    console.error("Erro ao criar empresa:", error.response ? error.response.data : error.message);
+    throw error;
+  }
+};
 
 
-
+export const createAdminUser = async (adminData, token) => {
+  try {
+    const response = await axios.post(`${API_URL}/users`, adminData, {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      }
+    });
+    console.log("Resposta da criação de admin:", response);
+    return response.data; // Deve retornar o ID do usuário admin
+  } catch (error) {
+    console.error("Erro ao criar usuário admin:", error.response ? error.response.data : error.message);
+    throw error;
+  }
+};

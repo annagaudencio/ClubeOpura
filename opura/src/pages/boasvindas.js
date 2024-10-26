@@ -47,7 +47,12 @@ export default function WelcomePage() {
 
       {/* Botão de pular */}
       <div className="w-full max-w-xl md:px-8">
-        <button size="normal" variant="outlineClara" href="/dashboard" fullWidth>Pular e Ir para o Dashboard</button>
+      <button 
+        onClick={() => router.push('/login')} 
+        className="w-full" 
+      >
+        Pular e Ir para o Login
+      </button>
       </div>
     </div>
   );
