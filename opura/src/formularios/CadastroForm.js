@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
+
 import InputField from '../elementos/InputField';
 import PasswordInput from '../elementos/PasswordInput';
 import CheckboxField from '../elementos/chekbox';
-//import { createUser } from '/services/user';
+
+import { createUserPoints } from '/services/points';
 import { createUser, loginAdmin, createEnterprise } from '/services/auth';
 
 
@@ -70,71 +72,13 @@ function CadastroForm() {
     }
   };
 
-  
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-  //   try {
-  //     // Obter o token do admin
-  //     const token = await loginAdmin();
-  //     if (!token) throw new Error('Erro ao obter token de admin');
-  
-  //     // Criar a empresa e capturar o ID
-  //     const enterpriseData = {
-  //       cnpj: formData.cnpj,
-  //       name: formData.enterprise_name,
-  //       address: formData.address,
-  //       cep: formData.cep,
-  //       city: formData.city,
-  //       state: formData.state,
-  //       country: formData.country,
-  //     };
-  
-  //     const enterprise = await createEnterprise(enterpriseData, token);
-  //     const enterpriseId = enterprise.ID || enterprise.id;
-  //     if (!enterpriseId) throw new Error('Erro ao obter o ID da empresa criada');
-  //     console.log("ID da empresa criada:", enterpriseId);
-  
-  //     // Preparar os dados do usuário final com o ID da empresa
-  //     const userData = {
-  //       name: formData.name,
-  //       password: formData.password,
-  //       email: formData.email,
-  //       profession: formData.profession,
-  //       id_enterprise: enterpriseId,       // ID da empresa recém-criada
-  //       is_adm: false,                     // Sempre false
-  //       id_user_registered: enterpriseId,  // ID do usuário responsável (pode ser o mesmo da empresa)
-  //       accept_notifications: formData.accept_notifications,
-  //       accept_program: formData.accept_program,
-  //       accept_regulation: formData.accept_regulation,
-  //       phone: formData.phone.replace(/\D/g, ''), // Remove qualquer caractere não numérico
-  //       birthday: new Date(formData.birthday).toISOString(), // Formata para ISO, se necessário
-  //     };
-  
-  //     console.log("Dados enviados para criar usuário:", userData);
-  
-  //     // Criar o usuário final
-  //     const response = await createUser(userData, token);
-  //     console.log("Resposta do registro de usuário:", response);
-  
-  //     if (response.success) {
-  //       router.push('/boasvindas');
-  //     } else {
-  //       // alert(response.error || 'Erro ao cadastrar usuário. Por favor, tente novamente.');
-  //     }
-  //   } catch (error) {
-  //     console.error('Erro no cadastro:', error);
-  //     alert('Erro ao cadastrar. Por favor, tente novamente.');
-  //   }
-  // };
-  
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      // Obter o token do admin
       const token = await loginAdmin();
       if (!token) throw new Error('Erro ao obter token de admin');
   
-      // Criar a empresa e capturar o ID
+      // Dados da empresa
       const enterpriseData = {
         cnpj: formData.cnpj,
         name: formData.enterprise_name,
@@ -145,12 +89,12 @@ function CadastroForm() {
         country: formData.country,
       };
   
+      // Criação da empresa e captura do ID
       const enterprise = await createEnterprise(enterpriseData, token);
       const enterpriseId = enterprise.ID || enterprise.id;
       if (!enterpriseId) throw new Error('Erro ao obter o ID da empresa criada');
-      console.log("ID da empresa criada:", enterpriseId);
   
-      // Preparar os dados do usuário final
+      // Dados do usuário
       const userData = {
         name: formData.name,
         password: formData.password,
@@ -158,7 +102,7 @@ function CadastroForm() {
         profession: formData.profession,
         id_enterprise: enterpriseId,
         is_adm: false,
-        id_user_registered: enterpriseId,
+        id_user_registered: enterpriseId, 
         accept_notifications: formData.accept_notifications,
         accept_program: formData.accept_program,
         accept_regulation: formData.accept_regulation,
@@ -166,18 +110,16 @@ function CadastroForm() {
         birthday: new Date(formData.birthday).toISOString(),
       };
   
-      console.log("Dados enviados para criar usuário:", userData);
-  
-      // Criar o usuário final e capturar a resposta
+      // Criação do usuário
       const response = await createUser(userData, token);
-      console.log("Resposta do registro de usuário:", response);
   
-      // Verificar a estrutura da resposta do backend
+      // Criar pontos usando enterpriseId para id_user_registered
       if (response && response.success !== false) {
-        console.log("Usuário criado com sucesso:", response);
+        await createUserPoints(enterpriseId); 
+        console.log("Usuário e pontos iniciais criados com sucesso.");
         router.push('/boasvindas');
       } else {
-        console.error("Erro ao cadastrar usuário:", response.error);
+        console.error("Erro ao cadastrar usuário.");
         alert(response.error || 'Erro ao cadastrar usuário. Por favor, tente novamente.');
       }
     } catch (error) {
@@ -186,7 +128,7 @@ function CadastroForm() {
     }
   };
   
-
+  
   return (
     <div className="bg-transparente-12 border-solid border-[1px] border-gray-600 backdrop-blur-md w-full md:max-w-96 flex-col justify-start items-start flex py-8 px-4 rounded-[32px]">
       <form className="space-y-6 w-full" onSubmit={handleSubmit}>

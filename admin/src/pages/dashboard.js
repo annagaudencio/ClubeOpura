@@ -27,26 +27,27 @@ export default function Dashboard() {
           const config = {
             headers: { Authorization: `Bearer ${token}` }
           };
-
-          // Fazendo a chamada para buscar usuários
-          const usersResponse = await axios.get('/api/users', config);
+          
+          const [usersResponse, benefitsResponse] = await Promise.all([
+            axios.get('/api/users', config),
+            axios.get('/api/benefits', config)
+          ]);
+  
           setUsers(usersResponse.data);
-
-          // Fazendo a chamada para buscar benefícios
-          const benefitsResponse = await axios.get('/api/benefits', config);
           setBenefits(benefitsResponse.data);
-
-          // Filtrando os parceiros (usuários que não são administradores)
+  
           const nonAdminUsers = usersResponse.data.filter(user => !user.is_adm);
-          setNumParceiros(nonAdminUsers.length); // Define a quantidade de parceiros (não admins)
+          setNumParceiros(nonAdminUsers.length);
         } catch (error) {
           console.error('Erro ao carregar os dados:', error);
+          setError("Falha ao carregar os dados. Por favor, tente novamente.");
         }
       };
-
+  
       loadData();
     }
   }, [token]);
+  
 
   const searchData = [...users, ...benefits];
 

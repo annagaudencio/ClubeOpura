@@ -59,38 +59,46 @@ export default function UserTopo({ userId }) {
   }, [userId]);
     
     const handleAddPoints = async (operation) => {
-      if (!newPoints) return;
-  
-      const updatedPoints = operation === 'add' ? points + parseInt(newPoints, 10) : Math.max(0, points - parseInt(newPoints, 10));
-      setPoints(updatedPoints);
-      setNewPoints("");
-  
-      console.log("Pontos atualizados localmente:", updatedPoints);
-  
-      try {
-          const updatedPointPayload = {
-              points: updatedPoints,
-              are_expired: false,
-              were_rescued: false,
-              rescued_date: null,
-              id_user_registered: user.id_user_registered
-          };
-  
-          console.log("Payload enviado para atualizar pontos:", updatedPointPayload);
-  
-          const response = await updateUserPoints(pointId, updatedPointPayload);
-          console.log("Resposta do servidor ao atualizar pontos:", response);
-  
-          if (response.status === 200) {
-              alert("Pontos atualizados com sucesso!");
-          } else {
-              alert(`Erro ao atualizar pontos: ${response.statusText}`);
-          }
-      } catch (error) {
-          console.error("Erro ao atualizar pontos:", error);
-          alert("Erro ao atualizar pontos.");
-      }
-  };
+        if (!newPoints) return;
+
+        // Calcula os pontos atualizados localmente
+        const updatedPoints = operation === 'add' ? points + parseInt(newPoints, 10) : Math.max(0, points - parseInt(newPoints, 10));
+        setPoints(updatedPoints);
+        setNewPoints("");
+
+        console.log("Pontos atualizados localmente:", updatedPoints);
+
+        try {
+            // Prepara o payload com os dados do usuário e pontos
+            const updatedPointPayload = {
+                points: updatedPoints,
+                are_expired: false,
+                were_rescued: false,
+                rescued_date: null,
+                id_user_registered: user.id_user_registered
+            };
+            
+
+            console.log("Payload enviado para atualizar pontos:", updatedPointPayload);
+            console.log("ID do ponto sendo atualizado:", pointId);
+
+            // Chama a função de atualização de pontos
+            const response = await updateUserPoints(pointId, updatedPointPayload);
+            
+            console.log("Resposta do servidor ao atualizar pontos:", response);
+
+            // Verifica o status da resposta
+            if (response?.status === 200) {
+                alert("Pontos atualizados com sucesso!");
+            } else {
+                alert(`Erro ao atualizar pontos: ${response?.statusText || 'Erro desconhecido'}`);
+            }
+        } catch (error) {
+            console.error("Erro ao atualizar pontos:", error);
+            alert("Erro ao atualizar pontos. Verifique o console para mais detalhes.");
+        }
+    };
+
 
     return (
         <div className="h-full flex p-8 bg-[var(--color-bg-preto)] rounded-[32px] divide-x divide-[var()] gap-4 text-[var(--color-primaria)]">

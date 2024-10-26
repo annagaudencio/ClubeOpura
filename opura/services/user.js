@@ -22,3 +22,13 @@ export const createUser = async (userData) => {
   }
 };
 
+export const updateUserData = async (id, data) => {
+  try {
+      const response = await api.put(`/users/${id}`, data);
+      return response.data;
+  } catch (error) {
+      console.error("Erro ao atualizar dados:", error);
+      throw error;
+  }
+};
+

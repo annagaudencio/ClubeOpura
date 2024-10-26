@@ -26,15 +26,23 @@ const updateUserPoints = async (pointId, updatedPointData) => {
           }
       };
 
-      console.log("Dados enviados para atualização:", updatedPointData); // Adicione este log para verificar o payload
+      console.log("Dados enviados para atualização:", updatedPointData); // Verificar payload
 
       const response = await axios.put(`/api/points/${pointId}`, updatedPointData, config);
+      console.log("Resposta completa do servidor:", response); // Log detalhado
+
       return response;
   } catch (error) {
-      console.error('Erro ao atualizar pontos:', error);
+      if (error.response) {
+          // Se o erro tiver uma resposta, mostre o status e a mensagem
+          console.error('Erro ao atualizar pontos:', error.response.data);
+      } else {
+          console.error('Erro desconhecido ao atualizar pontos:', error.message);
+      }
       throw error;
   }
 };
+
 
 
 // Exportar funções de forma nomeada

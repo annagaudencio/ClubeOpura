@@ -33,7 +33,7 @@ export default function PerfilUser() {
     const fetchUserData = async () => {
       try {
         const userId = 116;
-        const user = await getUserDataById(userId);
+        const user = await getUserDataById(userId); // Uso da função correta de user.js
         setUserData({
           nome: user.name,
           email: user.email,
@@ -49,7 +49,8 @@ export default function PerfilUser() {
           pais: user.pais || 'Brasil',
         });
         setUserCode(user.id);
-        const userPoints = await getUserPoints();
+
+        const userPoints = await getUserPoints(userId); // Uso da função correta de points.js
         setPontos(userPoints);
       } catch (error) {
         console.error("Erro ao buscar dados do usuário:", error);
@@ -86,8 +87,8 @@ export default function PerfilUser() {
 
       <div className="main-content md:p-2 h-full flex-col md:flex md:flex-row pt-8 md:overflow-y-clip">
         <div className='w-full md:h-full md:w-1/2'>
-          <UserInfo userData={userData} pontos={pontos} userCode={userCode} isEditing={isEditing} toggleEdit={toggleEdit} />
-          <UserForm userData={userData} handleChange={handleChange} handleCepChange={handleChange} isEditing={isEditing} handleSubmit={handleSubmit} />
+        <UserInfo userData={userData} pontos={pontos} userCode={userCode} isEditing={isEditing} toggleEdit={toggleEdit} />
+        <UserForm userData={userData} handleChange={handleChange} handleCepChange={handleChange} isEditing={isEditing} handleSubmit={handleSubmit} />
         </div>
         <BenefitsAndProgress beneficios={beneficios} pontos={pontos} />
       </div>
