@@ -135,7 +135,7 @@ function CadastroForm() {
         {/* Dados Pessoais */}
         <div className='w-full flex-col justify-start items-center inline-flex'>
           <h5 className='text-[var(--color-primaria)]'>Vamos nos conhecer?</h5>
-          <InputField name="name" label="Seu nome" placeholder="Seu nome completo" onChange={handleInputChange} required />
+          <InputField name="name" label="Seu name" placeholder="Seu name completo" onChange={handleInputChange} required />
           <InputField name="email" label="Email" placeholder="Seu melhor e-mail" onChange={handleInputChange} required />
           <PasswordInput name="password" label="Senha" placeholder="Digite sua senha" onChange={handleInputChange} required />
           <InputField name="profession" label="Profissão" placeholder="Sua profissão" onChange={handleInputChange} required />
@@ -147,7 +147,7 @@ function CadastroForm() {
         <div className='w-full flex-col justify-start items-center inline-flex'>
           <h5 className='text-[var(--color-primaria)]'>Sobre seu trabalho</h5>
           <InputField name="cnpj" label="CNPJ" placeholder="00.000.000/0000-00" onChange={handleInputChange} required />
-          <InputField name="enterprise_name" label="Nome do escritório" placeholder="Nome do escritório" onChange={handleInputChange} required />
+          <InputField name="enterprise_name" label="name do escritório" placeholder="name do escritório" onChange={handleInputChange} required />
         </div>
 
         {/* Endereço */}

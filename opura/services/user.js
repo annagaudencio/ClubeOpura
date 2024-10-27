@@ -24,11 +24,24 @@ export const createUser = async (userData) => {
 
 export const updateUserData = async (id, data) => {
   try {
-      const response = await api.put(`/users/${id}`, data);
-      return response.data;
+    // Remove campos undefined ou vazios
+    const cleanData = Object.entries(data).reduce((acc, [key, value]) => {
+      if (value !== undefined && value !== '') {
+        acc[key] = value;
+      }
+      return acc;
+    }, {});
+
+    // Se não houver dados para atualizar, retorna
+    if (Object.keys(cleanData).length === 0) {
+      return null;
+    }
+
+    const response = await api.put(`/users/${id}`, cleanData);
+    return response.data;
   } catch (error) {
-      console.error("Erro ao atualizar dados:", error);
-      throw error;
+    console.error("Erro ao atualizar dados:", error);
+    throw error;
   }
 };
 

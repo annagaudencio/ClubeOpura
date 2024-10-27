@@ -18,6 +18,8 @@ export const getUserPoints = async (id_user_registered) => {
 
     // Log dos pontos filtrados para debug
     console.log("Pontos filtrados:", filteredPoints);
+    console.log("Pontos filtrados após verificação:", filteredPoints);
+    console.log('id_user_registered:', id_user_registered);
 
     // Cálculo dos pontos
     const userPoints = filteredPoints.reduce((total, point) => total + point.points, 0);

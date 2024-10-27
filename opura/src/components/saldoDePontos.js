@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import api from '/services/api'; // Importando API para usar os endpoints
-import { getUserPoints } from '/services/points'; // Função para obter pontos do usuário
-import { getUserDataById } from '/services/user'; // Função para obter dados do usuário
 
 function ProgressBar({ label, value, maxValue }) {
   const percentage = (value / maxValue) * 100;

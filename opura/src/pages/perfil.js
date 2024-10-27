@@ -1,148 +1,11 @@
-// import React, { useState, useEffect } from 'react';
-// import Head from 'next/head';
-// import Navbar from '../components/navbar';
-// import UserInfo from '../components/UserInfo';
-// import UserForm from '../components/UserForm';
-// import BenefitsAndProgress from '../components/BenefProgress';
-// import { getUserInfoFromToken } from "/services/auth";
-// import { getUserDataById, updateUserData } from '/services/user';
-// import { getUserPoints } from '/services/points';
-
-// export default function PerfilUser() {
-//   const [userCode, setUserCode] = useState('');
-//   const [isEditing, setIsEditing] = useState(false);
-//   const [userData, setUserData] = useState({
-//     nome: '',
-//     email: '',
-//     telefone: '',
-//     senha: '',
-//     aniversario: '',
-//     cnpj: '',
-//     nomeEscritorio: '',
-//     cep: '',
-//     rua: '',
-//     numero: '',
-//     cidade: '',
-//     estado: '',
-//     pais: '',
-//   });
-//   const [pontos, setPontos] = useState(0);
-//   const [initialUserData, setInitialUserData] = useState({}); // Novo estado para comparação de alterações
-
-//   useEffect(() => {
-//     const fetchUserData = async () => {
-//       try {
-//         const token = localStorage.getItem("token");
-//         if (!token) throw new Error("Token não encontrado");
-        
-//         const userInfo = getUserInfoFromToken(token);
-//         if (!userInfo || !userInfo.id) throw new Error("ID do usuário não encontrado no token");
-
-//         console.log("Buscando dados do usuário com ID:", userInfo.id);
-//         const user = await getUserDataById(userInfo.id);
-//         const formattedData = {
-//           nome: user.name,
-//           email: user.email,
-//           telefone: user.phone || '',
-//           aniversario: user.birthday || '',
-//           cnpj: user.cnpj || '',
-//           nomeEscritorio: user.nomeEscritorio || '',
-//           cep: user.cep || '',
-//           rua: user.address || '',
-//           numero: user.numero || '',
-//           cidade: user.city || '',
-//           estado: user.state || '',
-//           pais: user.country || 'Brasil',
-//         };
-
-//         setUserData(formattedData);
-//         setInitialUserData(formattedData); // Guarda o estado inicial para referência
-//         setUserCode(user.id);
-
-//         console.log("Dados iniciais do usuário:", formattedData);
-        
-//         const userPoints = await getUserPoints(user.id_user_registered);
-//         setPontos(userPoints);
-//       } catch (error) {
-//         console.error("Erro ao buscar dados do usuário:", error);
-//       }
-//     };
-//     fetchUserData();
-//   }, []);
-
-//   const toggleEdit = () => {
-//     setIsEditing(!isEditing);
-//   };
-
-//   const handleChange = (e) => {
-//     const { name, value } = e.target;
-//     setUserData({ ...userData, [name]: value });
-//     console.log(`Campo alterado: ${name}, Novo valor: ${value}`);
-//   };
-
-//   const handleSubmit = async (e) => {
-//     e.preventDefault();
-//     console.log("Iniciando envio de dados...");
-    
-//     // Filtra apenas os dados que foram alterados
-//     const changedData = Object.keys(userData).reduce((acc, key) => {
-//       if (userData[key] !== initialUserData[key]) {
-//         acc[key] = userData[key];
-//       }
-//       return acc;
-//     }, {});
-
-//     if (Object.keys(changedData).length === 0) {
-//       console.log("Nenhuma alteração detectada.");
-//       return;
-//     }
-
-//     console.log("Dados a serem enviados para atualização:", changedData);
-//     try {
-//       await updateUserData(userCode, changedData);
-//       console.log('Dados atualizados com sucesso');
-//       setInitialUserData(userData); // Atualiza o estado inicial com os novos dados salvos
-//       setIsEditing(false);
-//     } catch (error) {
-//       console.error("Erro ao atualizar os dados do usuário:", error);
-//     }
-//   };
-
-//   return (
-//     <>
-//       <Head>
-//         <title>Perfil do Usuário</title>
-//       </Head>
-//       <Navbar />
-
-//       <div className="main-content md:p-2 h-full flex-col md:flex md:flex-row pt-8 md:overflow-y-clip">
-//         <div className='w-full md:h-full md:w-1/2'>
-//           <UserInfo 
-//           userData={userData} 
-//           pontos={pontos} 
-//           userCode={userCode} 
-//           isEditing={isEditing} 
-//           toggleEdit={toggleEdit} 
-//           />
-//           <UserForm 
-//             userData={userData} 
-//             handleChange={handleChange} 
-//             handleCepChange={handleChange} 
-//             isEditing={isEditing} 
-//             handleSubmit={handleSubmit} 
-//           />
-//         </div>
-//         <BenefitsAndProgress  />
-//       </div>
-//     </>
-//   );
-// }
 import React, { useState, useEffect } from 'react';
 import Head from 'next/head';
+
 import Navbar from '../components/navbar';
 import UserInfo from '../components/UserInfo';
 import UserForm from '../components/UserForm';
 import BenefitsAndProgress from '../components/BenefProgress';
+
 import { getUserInfoFromToken } from "/services/auth";
 import { getUserDataById, updateUserData } from '/services/user';
 import { getUserPoints } from '/services/points';
@@ -152,11 +15,11 @@ export default function PerfilUser() {
   const [userCode, setUserCode] = useState('');
   const [isEditing, setIsEditing] = useState(false);
   const [userData, setUserData] = useState({
-    nome: '',
+    name: '',
     email: '',
-    telefone: '',
+    phone: '',
     senha: '',
-    aniversario: '',
+    birthday: '',
     profession: '',
     id_enterprise: null
   });
@@ -176,64 +39,76 @@ export default function PerfilUser() {
   const [initialEnterpriseData, setInitialEnterpriseData] = useState({});
   const [hasChanges, setHasChanges] = useState(false);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const token = localStorage.getItem("token");
-        if (!token) throw new Error("Token não encontrado");
-        
-        const userInfo = getUserInfoFromToken(token);
-        if (!userInfo || !userInfo.id) throw new Error("ID do usuário não encontrado no token");
+  // Parte do useEffect que busca os dados no perfil.js
+useEffect(() => {
+  const fetchData = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) throw new Error("Token não encontrado");
+      
+      const userInfo = getUserInfoFromToken(token);
+      if (!userInfo || !userInfo.id) throw new Error("ID do usuário não encontrado no token");
 
-        // Busca dados do usuário
-        const user = await getUserDataById(userInfo.id);
-        const formattedUserData = {
-          nome: user.name,
-          email: user.email,
-          telefone: user.phone || '',
-          aniversario: user.birthday || '',
-          profession: user.profession || '',
-          id_enterprise: user.id_enterprise
+      // Busca dados do usuário
+      const user = await getUserDataById(userInfo.id);
+      const formattedUserData = {
+        name: user.name,
+        email: user.email,
+        phone: user.phone || '',
+        birthday: user.birthday || '',
+        profession: user.profession || '',
+        id_enterprise: user.id_enterprise
+      };
+
+      setUserData(formattedUserData);
+      setInitialUserData(formattedUserData);
+      setUserCode(user.id);
+
+      // Se houver empresa associada, busca dados da empresa
+      if (user.id_enterprise) {
+        const enterprise = await getEnterpriseById(user.id_enterprise);
+        const formattedEnterpriseData = {
+          cnpj: enterprise.cnpj || '',
+          name: enterprise.name || '',
+          address: enterprise.address || '',
+          cep: enterprise.cep || '',
+          city: enterprise.city || '',
+          state: enterprise.state || '',
+          country: enterprise.country || 'Brasil'
         };
 
-        setUserData(formattedUserData);
-        setInitialUserData(formattedUserData);
-        setUserCode(user.id);
-
-        // Se houver empresa associada, busca dados da empresa
-        if (user.id_enterprise) {
-          const enterprise = await getEnterpriseById(user.id_enterprise);
-          const formattedEnterpriseData = {
-            cnpj: enterprise.cnpj || '',
-            name: enterprise.name || '',
-            address: enterprise.address || '',
-            cep: enterprise.cep || '',
-            city: enterprise.city || '',
-            state: enterprise.state || '',
-            country: enterprise.country || 'Brasil'
-          };
-
-          setEnterpriseData(formattedEnterpriseData);
-          setInitialEnterpriseData(formattedEnterpriseData);
-        }
-        
-        const userPoints = await getUserPoints(userInfo.id);
-        setPontos(userPoints);
-      } catch (error) {
-        console.error("Erro ao buscar dados:", error);
+        setEnterpriseData(formattedEnterpriseData);
+        setInitialEnterpriseData(formattedEnterpriseData);
       }
-    };
-    fetchData();
-  }, []);
+      
+      // Busca pontos usando o ID correto do usuário
+      try {
+        const userPoints = await getUserPoints(user.id); // Usando o ID do usuário retornado pela API
+        setPontos(userPoints);
+        console.log('Pontos do usuário:', userPoints);
+      } catch (pointsError) {
+        console.error("Erro ao buscar pontos do usuário:", pointsError);
+        setPontos(0); // Define um valor padrão em caso de erro
+      }
+
+    } catch (error) {
+      console.error("Erro ao buscar dados:", error);
+    }
+  };
+  fetchData();
+}, []);
 
   // Monitora mudanças nos dados
   useEffect(() => {
-    const checkChanges = () => {
-      const userDataChanged = JSON.stringify(userData) !== JSON.stringify(initialUserData);
-      const enterpriseDataChanged = JSON.stringify(enterpriseData) !== JSON.stringify(initialEnterpriseData);
-      setHasChanges(userDataChanged || enterpriseDataChanged);
-    };
-    checkChanges();
+    const hasUserChanges = Object.keys(userData).some(key => {
+      return userData[key] !== initialUserData[key];
+    });
+
+    const hasEnterpriseChanges = Object.keys(enterpriseData).some(key => {
+      return enterpriseData[key] !== initialEnterpriseData[key];
+    });
+
+    setHasChanges(hasUserChanges || hasEnterpriseChanges);
   }, [userData, enterpriseData, initialUserData, initialEnterpriseData]);
 
   const toggleEdit = () => {
@@ -252,34 +127,35 @@ export default function PerfilUser() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Iniciando atualização de dados...");
     
     try {
-      // Atualiza dados da empresa se houver mudanças
-      const enterpriseChanges = Object.keys(enterpriseData).reduce((acc, key) => {
-        if (enterpriseData[key] !== initialEnterpriseData[key]) {
-          acc[key] = enterpriseData[key];
+      // Cria objetos apenas com os campos alterados
+      const userUpdates = {};
+      Object.keys(userData).forEach(key => {
+        if (userData[key] !== initialUserData[key] && userData[key] !== undefined) {
+          userUpdates[key] = userData[key];
         }
-        return acc;
-      }, {});
+      });
 
-      if (Object.keys(enterpriseChanges).length > 0) {
-        await updateEnterprise(userData.id_enterprise, enterpriseChanges);
+      const enterpriseUpdates = {};
+      Object.keys(enterpriseData).forEach(key => {
+        if (enterpriseData[key] !== initialEnterpriseData[key] && enterpriseData[key] !== undefined) {
+          enterpriseUpdates[key] = enterpriseData[key];
+        }
+      });
+
+      // Atualiza dados apenas se houver alterações
+      if (Object.keys(userUpdates).length > 0) {
+        console.log('Atualizando dados do usuário:', userUpdates);
+        await updateUserData(userCode, userUpdates);
       }
 
-      // Atualiza dados do usuário se houver mudanças
-      const userChanges = Object.keys(userData).reduce((acc, key) => {
-        if (userData[key] !== initialUserData[key]) {
-          acc[key] = userData[key];
-        }
-        return acc;
-      }, {});
-
-      if (Object.keys(userChanges).length > 0) {
-        await updateUserData(userCode, userChanges);
+      if (Object.keys(enterpriseUpdates).length > 0 && userData.id_enterprise) {
+        console.log('Atualizando dados da empresa:', enterpriseUpdates);
+        await updateEnterprise(userData.id_enterprise, enterpriseUpdates);
       }
 
-      // Atualiza estados iniciais
+      // Atualiza estados após sucesso
       setInitialUserData(userData);
       setInitialEnterpriseData(enterpriseData);
       setHasChanges(false);
@@ -288,6 +164,7 @@ export default function PerfilUser() {
       console.log('Dados atualizados com sucesso');
     } catch (error) {
       console.error("Erro ao atualizar dados:", error);
+      // Aqui você pode adicionar um tratamento de erro para o usuário
     }
   };
 
@@ -301,9 +178,9 @@ export default function PerfilUser() {
       <div className="main-content md:p-2 h-full flex-col md:flex md:flex-row pt-8 md:overflow-y-clip">
         <div className='w-full md:h-full md:w-1/2'>
           <UserInfo 
-            userData={userData} 
-            pontos={pontos} 
-            userCode={userCode} 
+            userData={userData}
+            pontos={pontos}
+            userCode={userCode}
             isEditing={isEditing} 
             toggleEdit={toggleEdit} 
           />

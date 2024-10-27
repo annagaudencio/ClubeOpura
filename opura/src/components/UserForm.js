@@ -1,149 +1,5 @@
-// import React, { useState, useEffect } from 'react';
-// import InputData from '../elementos/InputData';
-// import PasswordInput from '../elementos/PasswordInput';
-
-// export default function UserForm({ userData, handleChange, handleCepChange, isEditing, handleSubmit }) {
-//   const [isSaveEnabled, setIsSaveEnabled] = useState(false); // Estado para controlar o botão salvar
-//   const [formState, setFormState] = useState(userData); // Estado interno para armazenar mudanças
-
-//   // Função para formatar a data para yyyy-MM-dd
-//   const formatDate = (dateString) => {
-//     if (!dateString) return "";
-//     const date = new Date(dateString);
-//     return date.toISOString().split('T')[0];
-//   };
-
-//   // Atualiza o estado local com mudanças e ativa o botão Salvar
-//   const handleInputChange = (e) => {
-//     handleChange(e); // Mantém o funcionamento de handleChange existente
-//     const { name, value } = e.target;
-//     setFormState((prevState) => ({
-//       ...prevState,
-//       [name]: value,
-//     }));
-//     setIsSaveEnabled(true); // Ativa o botão
-//   };
-
-//   const handleSubmitForm = (e) => {
-//     e.preventDefault();
-//     handleSubmit(formState); // Envia os dados alterados
-//     setIsSaveEnabled(false); // Desativa o botão após salvar
-//   };
-
-//   return (
-//     <form onSubmit={handleSubmitForm} className='md:h-[75%] h-fit md:overflow-y-auto bg-[var(--color-background)] rounded-[32px] p-8'>
-//       <div className='form-perfil'>
-//         <h3 className='text-center text-lg'>Sobre você</h3>
-//         <InputData 
-//           label="Seu nome" 
-//           name="nome" 
-//           placeholder="Digite seu nome completo" 
-//           value={formState.nome || ""} 
-//           onChange={handleInputChange} 
-//         />
-//         <InputData 
-//           label="Whatsapp" 
-//           name="telefone" 
-//           placeholder="(99) 99999-9999" 
-//           value={formState.telefone || ""} 
-//           onChange={handleInputChange} 
-//         />
-//         <InputData 
-//           label="Seu email" 
-//           name="email" 
-//           placeholder="exemplo@email.com" 
-//           value={formState.email || ""} 
-//           onChange={handleInputChange} 
-//         />
-//         <InputData 
-//           type="date" 
-//           label="Data de Aniversário" 
-//           name="aniversario" 
-//           placeholder="dd/mm/aaaa" 
-//           value={formatDate(formState.aniversario)} 
-//           onChange={handleInputChange} 
-//         />
-//         <div><a>Redefinir senha</a></div>
-//       </div>
-
-//       <div className='form-perfil pt-8'>
-//         <h3 className='text-center text-lg'>Sobre seu trabalho</h3>
-//         <InputData 
-//           type="text"
-//           label="CNPJ"
-//           name="cnpj"
-//           value={formState.cnpj || ""}
-//           onChange={handleInputChange}
-//         />
-//         <InputData 
-//           type="text"
-//           label="Nome do Escritório"
-//           name="nomeEscritorio"
-//           value={formState.nomeEscritorio || ""}
-//           onChange={handleInputChange}
-//         />
-//       </div>
-
-//       <div className='form-perfil pt-8'>
-//         <h3 className='text-center text-lg'>Seu espaço</h3>
-//         <InputData 
-//           type="text"
-//           label="CEP"
-//           name="cep"
-//           value={formState.cep || ""}
-//           onChange={handleCepChange}
-//         />
-//         <InputData 
-//           type="text"
-//           label="Rua"
-//           name="rua"
-//           value={formState.rua || ""}
-//           onChange={handleInputChange}
-//         />
-//         <InputData 
-//           type="text"
-//           label="Número"
-//           name="numero"
-//           value={formState.numero || ""}
-//           onChange={handleInputChange}
-//         />
-//         <InputData 
-//           type="text"
-//           label="Cidade"
-//           name="cidade"
-//           value={formState.cidade || ""}
-//           onChange={handleInputChange}
-//         />
-//         <InputData 
-//           type="text"
-//           label="Estado"
-//           name="estado"
-//           value={formState.estado || ""}
-//           onChange={handleInputChange}
-//         />
-//         <InputData 
-//           type="text"
-//           label="País"
-//           name="pais"
-//           value={formState.pais || ""}
-//           onChange={handleInputChange}
-//         />
-//       </div>
-
-//       <button 
-//         type="submit"
-//         className='w-full mt-8 bt-marrom' 
-//         style={{ opacity: isSaveEnabled ? 1 : 0.5 }}
-//         disabled={!isSaveEnabled}
-//       >
-//         Salvar
-//       </button>
-//     </form>
-//   );
-// }
 import React from 'react';
 import InputData from '../elementos/InputData';
-//import PasswordInput from '../elementos/PasswordInput';
 
 export default function UserForm({ 
     userData, 
@@ -196,7 +52,7 @@ export default function UserForm({
   };
 
   // Log para debug
-  console.log('Data antes da formatação:', userData.aniversario);
+  console.log('Data antes da formatação:', userData.birthday);
 
 
   return (
@@ -205,18 +61,18 @@ export default function UserForm({
       <div className='form-perfil'>
         <h3 className='text-center text-lg'>Sobre você</h3>
         <InputData 
-          label="Seu nome" 
-          name="nome" 
-          placeholder="Digite seu nome completo" 
-          value={userData.nome || ""} 
+          label="Seu name" 
+          name="name" 
+          placeholder="Digite seu name completo" 
+          value={userData.name || ""} 
           onChange={handleUserChange}
           
         />
         <InputData 
           label="Whatsapp" 
-          name="telefone" 
+          name="phone" 
           placeholder="(99) 99999-9999" 
-          value={userData.telefone || ""} 
+          value={userData.phone || ""} 
           onChange={handleUserChange}
           
         />
@@ -231,9 +87,9 @@ export default function UserForm({
         <InputData 
           type="date" 
           label="Data de Aniversário" 
-          name="aniversario" 
+          name="birthday" 
           placeholder="dd/mm/yyyy" 
-          value={formatDateForDisplay(userData.aniversario)}
+          value={formatDateForDisplay(userData.birthday)}
           onChange={handleUserChange}
         />
         <InputData 
@@ -259,9 +115,9 @@ export default function UserForm({
           
         />
         <InputData 
-          label="Nome do Escritório"
+          label="name do Escritório"
           name="name"
-          placeholder="Nome do escritório"
+          placeholder="name do escritório"
           value={enterpriseData.name || ""}
           onChange={handleEnterpriseChange}
           

@@ -1,17 +1,17 @@
 import React from 'react';
 
 // Componente PartnerRow
-const PartnerRow = ({ nome, pontos, onClick }) => {
+const PartnerRow = ({ name, pontos, onClick }) => {
   return (
     <div className="flex items-center justify-between p-4 bg-white shadow-md rounded-lg mb-4 cursor-pointer" onClick={onClick}>
       <div className="flex items-center">
         <img
           src="/midia/avatar.webp"
-          alt={`${nome} avatar`}
+          alt={`${name} avatar`}
           className="w-10 h-10 rounded-full mr-4"
         />
         <div>
-          <h3 className="text-lg font-bold">{nome}</h3>
+          <h3 className="text-lg font-bold">{name}</h3>
           <p className="text-sm text-gray-500">{pontos} pontos</p>
         </div>
       </div>
@@ -25,8 +25,8 @@ const PartnerRow = ({ nome, pontos, onClick }) => {
 const Listas = () => {
   // Exemplo de dados para o PartnerRow e StepItem
   const parceiros = [
-    { nome: 'Cecilia Nunes', pontos: 120 },
-    { nome: 'João Silva', pontos: 150 },
+    { name: 'Cecilia Nunes', pontos: 120 },
+    { name: 'João Silva', pontos: 150 },
   ];
 
   const etapas = [
@@ -40,9 +40,9 @@ const Listas = () => {
       {parceiros.map((parceiro, index) => (
         <PartnerRow
           key={index}
-          nome={parceiro.nome}
+          name={parceiro.name}
           pontos={parceiro.pontos}
-          onClick={() => console.log(`Parceiro ${parceiro.nome} clicado!`)}
+          onClick={() => console.log(`Parceiro ${parceiro.name} clicado!`)}
         />
       ))}
     </div>

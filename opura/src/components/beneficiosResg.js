@@ -41,7 +41,7 @@ const BeneficiosResgatados = ({ userId }) => {
             return benefitInfo
               ? {
                   ...redeemed,
-                  titulo: benefitInfo.title, // Nome do benefício
+                  titulo: benefitInfo.title, // name do benefício
                   points_needed: benefitInfo.points, // Pontos necessários para o benefício
                 }
               : {
