@@ -96,7 +96,7 @@ export default function Dashboard() {
           
           <div 
             ref={scrollRef}
-            className="w-full px-8 scroll-container overflow-x-auto flex items-stretch space-x-4"
+            className="w-full px-8 scroll-container overflow-x-auto flex space-x-4"
             onMouseDown={handleMouseDown}
             onMouseMove={handleMouseMove}
             onMouseLeave={handleMouseUp}

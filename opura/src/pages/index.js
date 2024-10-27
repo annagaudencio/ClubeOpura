@@ -23,7 +23,7 @@ export default function Home() {
           <button className="w-1/2 bt-linha-clara" 
           onClick={() => irPara('/login')}>Entrar</button>
           
-          <button className="w-1/2" 
+          <button className="w-1/2 p-0" 
           onClick={() => irPara('/cadastro')}>Cadastrar</button>
         </div>
       </div>

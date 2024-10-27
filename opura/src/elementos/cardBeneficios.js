@@ -50,10 +50,10 @@ export default function CardBeneficios({
   const disponivelParaResgate = pontosUsuario >= pontos;
 
   return (
-    <div className="w-full min-w-72 max-w-xs bg-transparent rounded-[32px] overflow-hidden">
+    <div className="w-full min-w-72 min-h-[500px] max-w-xs bg-transparent rounded-[32px] overflow-hidden">
       {/* Imagem ou área para o conteúdo do benefício */}
       <div
-        className="car-img-1 bg-gray-200 rounded-[32px] p-4 relative"
+        className="min-h-80 bg-gray-200 rounded-[32px] p-4 relative"
         style={{
           backgroundImage: `linear-gradient(180deg, rgba(241, 240, 234, 0.00) 40%, #F1F0EA 100%), url(${bgImage})`,
           backgroundSize: 'cover',
