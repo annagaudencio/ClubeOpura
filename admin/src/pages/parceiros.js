@@ -44,6 +44,10 @@ const Parceiros = () => {
 
         setAdmins(adminUsers);
         setPartners(partnersWithPoints);
+        
+        console.log("Arquitetos:", nonAdminPartners)
+        console.log("Usuarios admin:", adminUsers)
+
       } catch (error) {
         console.error("Erro ao carregar os usuários:", error);
       }
@@ -55,6 +59,8 @@ const Parceiros = () => {
   const handleAddParceiro = () => {
     router.push('/addParceiro');
   };
+
+  
 
   return (
     <>
