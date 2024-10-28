@@ -5,9 +5,9 @@ export default function Perguntas() {
 
     return (
         <div>
-            {/* Perfuntas Frequentes */}
+            {/* Perguntas Frequentes */}
             <div className='w-full h-full bg-[var(--color-background)] rounded-[32px] p-8 space-y-8 pb-20 md:pb-8'>
-                <h3 className='pb-4 text-center'>Perfuntas Frequentes</h3>
+                <h3 className='pb-4 text-center'>Perguntas Frequentes</h3>
                 <div>
                     <AccordionItem
                     title="Pergunta frequente"

@@ -20,7 +20,7 @@ export default function Sobre() {
             </div>
         </div>
 
-        {/* Perfuntas Frequentes */}
+        {/* Perguntas Frequentes */}
         <div className='w-full h-fit md:h-full bg-[var(--color-background)] rounded-[32px] space-y-8'><Perguntas /></div>
         
     </div>
