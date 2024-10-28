@@ -6,7 +6,7 @@ const BeneficioCard = ({ id, titulo, pontos }) => {
     <Link href={`/beneficio/${id}`}>
       <div className="relative bg-white rounded-[32px] overflow-hidden cursor-pointer shadow-lg transition-transform transform hover:scale-105">
         <img 
-          src={`/midia/imgBeneficios/${id}.webp`} 
+          src={`https://opuramarmores.com/benef-img/${id}.webp`} 
           alt={titulo} 
           className="w-full h-[200px] object-cover"
           onError={(e) => {

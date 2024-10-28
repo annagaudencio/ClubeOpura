@@ -30,7 +30,7 @@ export default function EditBeneficio() {
         setBeneficio(prev => ({
           ...prev,
           ...data,
-          image: `/midia/imgBeneficios/${id}.webp`,
+          image: `https://opuramarmores.com/benef-img/${id}.webp`,
         }));
       } catch (error) {
         console.error('Erro ao carregar benefício:', error);

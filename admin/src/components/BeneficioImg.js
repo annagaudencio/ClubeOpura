@@ -8,17 +8,10 @@ const BeneficioImg = ({ imagem, onImagemChange, beneficioId }) => {
     const [imageUrl, setImageUrl] = useState('/midia/imagem.webp'); // Imagem padrão
     const [imageError, setImageError] = useState(false);
 
-    // useEffect(() => {
-    //     if (imagem && typeof imagem === 'string' && imagem.trim() !== '') {
-    //         setImageUrl(imagem);
-    //         setImageError(false);
-    //     } else {
-    //         setImageUrl('/midia/imagem.webp'); // Imagem padrão se não houver imagem válida
-    //     }
-    // }, [imagem]);
+    
     useEffect(() => {
         if (beneficioId) {
-            setImageUrl(`/midia/imgBeneficios/${beneficioId}.webp`);
+            setImageUrl(`https://opuramarmores.com/benef-img/${beneficioId}.webp`);
             setImageError(false);
         }
     }, [beneficioId]);
@@ -29,48 +22,6 @@ const BeneficioImg = ({ imagem, onImagemChange, beneficioId }) => {
         setImageUrl('/midia/imagem.webp'); // Imagem de fallback
     };
 
-    // const handleImagemChange = async (e) => {
-    //     if (!beneficioId) {
-    //         console.error("ID do benefício não está definido.");
-    //         return;
-    //     }
-
-    //     const file = e.target.files[0];
-    //     if (file) {
-    //         setIsLoading(true);
-    //         try {
-    //             const options = {
-    //                 maxSizeMB: 0.5,
-    //                 maxWidthOrHeight: 1024,
-    //                 useWebWorker: true,
-    //             };
-    //             const compressedFile = await imageCompression(file, options);
-
-    //             const formData = new FormData();
-    //             formData.append('image', compressedFile);
-
-    //             const response = await axios.put(`/api/benefits/${beneficioId}/image`, formData, {
-    //                 headers: {
-    //                     'Content-Type': 'multipart/form-data',
-    //                 },
-    //             });
-
-    //             if (response.data && response.data.imageUrl) {
-    //                 setImageUrl(response.data.imageUrl);
-    //                 onImagemChange(response.data.imageUrl);
-    //                 setImageError(false);
-    //             } else {
-    //                 throw new Error('Resposta inválida do servidor');
-    //             }
-    //         } catch (error) {
-    //             console.error("Erro ao enviar a imagem ao servidor:", error);
-    //             setImageError(true);
-    //             // Manter a imagem atual em caso de erro
-    //         } finally {
-    //             setIsLoading(false);
-    //         }
-    //     }
-    // };
 
     const handleImagemChange = (e) => {
         const file = e.target.files[0];
