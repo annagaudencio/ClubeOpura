@@ -3,13 +3,32 @@ import axios from 'axios';
 // Função para buscar pontos de um usuário específico
 const fetchUserPoints = async (userId) => {
   try {
+    // Pegar o token do localStorage
     const token = localStorage.getItem('access_token');
+    
+    // Verificar se o token existe
+    if (!token) {
+      throw new Error('Token não encontrado. Faça login novamente.');
+    }
+
+    // Configurar o header com o token
     const config = {
-      headers: { Authorization: `Bearer ${token}` }
+      headers: { 
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      }
     };
+
+    // Fazer a requisição com o token
     const response = await axios.get(`/api/points?userId=${userId}`, config);
     return response.data;
   } catch (error) {
+    // Melhor tratamento de erro
+    if (error.response?.status === 401) {
+      // Token inválido ou expirado
+      localStorage.removeItem('access_token'); // Remove o token inválido
+      window.location.href = '/'; // Redireciona para login
+    }
     console.error('Erro ao buscar pontos:', error);
     throw error;
   }

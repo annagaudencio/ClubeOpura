@@ -10,46 +10,28 @@ export default function LoginForm() {
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
   
-    // const handleSubmit = async (e) => {
-    //   e.preventDefault();
-  
-    //   try {
-    //     // Faz a requisição ao backend para autenticar
-    //     const response = await axios.post('/api/auth/login', {
-    //       email,
-    //       password,
-    //     });
-  
-    //     // Pegando o token da resposta
-    //     const { access_token } = response.data;
-
-    //     // Salvando o token no localStorage e cookies
-    //     Cookies.set('token', access_token, { expires: 1 });
-    //     localStorage.setItem('access_token', access_token);
-  
-    //     // Redirecionar para o dashboard após login
-    //     window.location.href = '/dashboard';
-    //   } catch (err) {
-    //     setError('Erro no login. Verifique suas credenciais.');
-    //   }
-    // };
-
     const handleSubmit = async (e) => {
       e.preventDefault();
+  
       try {
+        // Faz a requisição ao backend para autenticar
         const response = await axios.post('/api/auth/login', {
           email,
           password,
         });
+  
+        // Pegando o token da resposta
         const { access_token } = response.data;
-        console.log("Token recebido:", access_token);
+
+        // Salvando o token no localStorage e cookies
         Cookies.set('token', access_token, { expires: 1 });
         localStorage.setItem('access_token', access_token);
-        console.log("Token salvo no localStorage.");
-        console.log("Login response:", response);
+        console.log("Token armazenado no localStorage:", access_token);
+
+  
+        // Redirecionar para o dashboard após login
         window.location.href = '/dashboard';
       } catch (err) {
-        console.error('Erro no login:', err);
         setError('Erro no login. Verifique suas credenciais.');
       }
     };

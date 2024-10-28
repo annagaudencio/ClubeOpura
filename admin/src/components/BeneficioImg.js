@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import Image from 'next/image';
 import imageCompression from 'browser-image-compression';
 import Icon from "../elementos/Icons";
 import axios from 'axios';

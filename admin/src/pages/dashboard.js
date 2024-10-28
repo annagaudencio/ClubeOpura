@@ -17,6 +17,7 @@ export default function Dashboard() {
     if (typeof window !== 'undefined') {
       const storedToken = localStorage.getItem('access_token');
       setToken(storedToken);
+      console.log("Token carregado:", storedToken);
     }
   }, []);
 
