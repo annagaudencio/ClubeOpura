@@ -60,15 +60,6 @@ export const fetchUserPoints = async (userId) => {
   }
 };
 
-export const updateUserPoints = async (userId, newPoints) => {
-  try {
-    await api.put(`/points/${userId}`, { points: newPoints });
-    console.log('Pontos atualizados com sucesso:', newPoints);
-  } catch (error) {
-    console.error('Erro ao atualizar pontos do usuário:', error);
-    throw error;
-  }
-};
 
 export const createUserPoints = async (id_user_registered) => {
   try {
@@ -85,5 +76,23 @@ export const createUserPoints = async (id_user_registered) => {
     throw error;
   }
 };
+
+
+
+export const updateUserPoints = async (userId, newPoints) => {
+  try {
+    if (!userId) {
+      throw new Error("ID do usuário não fornecido para atualização de pontos.");
+    }
+    await api.put(`/points/${userId}`, { points: newPoints });
+    console.log('Pontos atualizados com sucesso:', newPoints);
+  } catch (error) {
+    console.error('Erro ao atualizar pontos do usuário:', error.response?.data || error.message);
+    throw error;
+  }
+};
+
+
+
 
 

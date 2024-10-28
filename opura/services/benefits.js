@@ -19,18 +19,18 @@ export const getBenefits = async () => {
   }
 };
 
-// Função para obter os benefícios resgatados pelo usuário logado
-export const getRedeemedBenefits = async (userId) => {
+// Função para obter benefícios resgatados de um usuário específico
+export const getUserRedeemedBenefits = async () => { // Removendo userId temporariamente
   try {
-    const response = await api.get('/redeemedBenefits', {
-      params: { id_user: userId },
-    });
-    return response.data;  // Retorna os benefícios resgatados pelo usuário logado
+    const response = await api.get('/redeemedBenefits');
+    console.log("Resposta da API para benefícios resgatados (sem filtro de id_user):", response.data);
+    return response.data;
   } catch (error) {
     console.error('Erro ao obter os benefícios resgatados:', error);
     throw error;
   }
 };
+
 
 // Função para obter os benefícios, marcando os já resgatados pelo usuário logado
 export const getUserBenefits = async (userId) => {
@@ -52,6 +52,22 @@ export const getUserBenefits = async (userId) => {
     return benefitsWithRedeemedStatus;
   } catch (error) {
     console.error('Erro ao obter os benefícios do usuário:', error);
+    throw error;
+  }
+};
+
+export const redeemBenefit = async (benefitId, userId, pointsUsed) => {
+  try {
+    const response = await api.post('/redeemedBenefits', {
+      id_user: userId,
+      id_benefits: benefitId,
+      rescued_date: new Date().toISOString(),
+      points_used: pointsUsed,
+    });
+    console.log("Resgate de benefício realizado com sucesso:", response.data);
+    return response.data;
+  } catch (error) {
+    console.error("Erro ao resgatar benefício:", error.response?.data || error.message);
     throw error;
   }
 };

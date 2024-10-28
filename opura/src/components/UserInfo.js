@@ -2,16 +2,15 @@ import React, { useEffect, useState } from 'react';
 import { getUserDataById } from '/services/user';
 import { getUserPoints } from '/services/points';
 
-export default function UserInfo({ userCode }) {
+export default function UserInfo({ userCode, userData }) {
   const [pontos, setPontos] = useState(0);
-  const [userData, setUserData] = useState({});
 
   useEffect(() => {
     if (userCode) {
       getUserDataById(userCode)
         .then((data) => {
           console.log("Dados do usuário:", data);
-          const { id_user_registered } = data; // Extrai o ID correto para buscar pontos
+          const { id_user_registered } = data; 
 
           if (id_user_registered) {
             getUserPoints(id_user_registered)
@@ -29,6 +28,7 @@ export default function UserInfo({ userCode }) {
   }, [userCode]);
 
   console.log("Pontos:", pontos)
+  console.log("nome do usuário", userData.name)
 
   return (
     <div className='h-[25%] bg-[var(--color-background)] rounded-[32px] p-8 pt-1 divide-y divide-[var(--color-links)]'>

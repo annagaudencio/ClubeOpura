@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import Head from 'next/head';
-
 import Navbar from '../components/navbar';
 import UserInfo from '../components/UserInfo';
 import UserForm from '../components/UserForm';
@@ -38,67 +37,69 @@ export default function PerfilUser() {
   const [initialUserData, setInitialUserData] = useState({});
   const [initialEnterpriseData, setInitialEnterpriseData] = useState({});
   const [hasChanges, setHasChanges] = useState(false);
+  const [userId, setUserId] = useState(null); // Define o userId para passar para BenefitsAndProgress
 
-  // Parte do useEffect que busca os dados no perfil.js
-useEffect(() => {
-  const fetchData = async () => {
-    try {
-      const token = localStorage.getItem("token");
-      if (!token) throw new Error("Token não encontrado");
-      
-      const userInfo = getUserInfoFromToken(token);
-      if (!userInfo || !userInfo.id) throw new Error("ID do usuário não encontrado no token");
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        if (!token) throw new Error("Token não encontrado");
+        
+        const userInfo = getUserInfoFromToken(token);
+        if (!userInfo || !userInfo.id) throw new Error("ID do usuário não encontrado no token");
 
-      // Busca dados do usuário
-      const user = await getUserDataById(userInfo.id);
-      const formattedUserData = {
-        name: user.name,
-        email: user.email,
-        phone: user.phone || '',
-        birthday: user.birthday || '',
-        profession: user.profession || '',
-        id_enterprise: user.id_enterprise
-      };
+        // Define o userId a partir do ID no token
+        setUserId(userInfo.id);
 
-      setUserData(formattedUserData);
-      setInitialUserData(formattedUserData);
-      setUserCode(user.id);
-
-      // Se houver empresa associada, busca dados da empresa
-      if (user.id_enterprise) {
-        const enterprise = await getEnterpriseById(user.id_enterprise);
-        const formattedEnterpriseData = {
-          cnpj: enterprise.cnpj || '',
-          name: enterprise.name || '',
-          address: enterprise.address || '',
-          cep: enterprise.cep || '',
-          city: enterprise.city || '',
-          state: enterprise.state || '',
-          country: enterprise.country || 'Brasil'
+        // Busca dados do usuário
+        const user = await getUserDataById(userInfo.id);
+        const formattedUserData = {
+          name: user.name,
+          email: user.email,
+          phone: user.phone || '',
+          birthday: user.birthday || '',
+          profession: user.profession || '',
+          id_enterprise: user.id_enterprise
         };
 
-        setEnterpriseData(formattedEnterpriseData);
-        setInitialEnterpriseData(formattedEnterpriseData);
-      }
-      
-      // Busca pontos usando o ID correto do usuário
-      try {
-        const userPoints = await getUserPoints(user.id); // Usando o ID do usuário retornado pela API
-        setPontos(userPoints);
-        console.log('Pontos do usuário:', userPoints);
-      } catch (pointsError) {
-        console.error("Erro ao buscar pontos do usuário:", pointsError);
-        setPontos(0); // Define um valor padrão em caso de erro
-      }
+        setUserData(formattedUserData);
+        setInitialUserData(formattedUserData);
+        setUserCode(user.id);
 
-    } catch (error) {
-      console.error("Erro ao buscar dados:", error);
-    }
-  };
-  fetchData();
-}, []);
+        // Se houver empresa associada, busca dados da empresa
+        if (user.id_enterprise) {
+          const enterprise = await getEnterpriseById(user.id_enterprise);
+          const formattedEnterpriseData = {
+            cnpj: enterprise.cnpj || '',
+            name: enterprise.name || '',
+            address: enterprise.address || '',
+            cep: enterprise.cep || '',
+            city: enterprise.city || '',
+            state: enterprise.state || '',
+            country: enterprise.country || 'Brasil'
+          };
 
-  // Monitora mudanças nos dados
+          setEnterpriseData(formattedEnterpriseData);
+          setInitialEnterpriseData(formattedEnterpriseData);
+        }
+        
+        // Busca pontos usando o ID correto do usuário
+        try {
+          const userPoints = await getUserPoints(user.id);
+          setPontos(userPoints);
+          console.log('Pontos do usuário:', userPoints);
+        } catch (pointsError) {
+          console.error("Erro ao buscar pontos do usuário:", pointsError);
+          setPontos(0); // Define um valor padrão em caso de erro
+        }
+
+      } catch (error) {
+        console.error("Erro ao buscar dados:", error);
+      }
+    };
+    fetchData();
+  }, []);
+
   useEffect(() => {
     const hasUserChanges = Object.keys(userData).some(key => {
       return userData[key] !== initialUserData[key];
@@ -129,7 +130,6 @@ useEffect(() => {
     e.preventDefault();
     
     try {
-      // Cria objetos apenas com os campos alterados
       const userUpdates = {};
       Object.keys(userData).forEach(key => {
         if (userData[key] !== initialUserData[key] && userData[key] !== undefined) {
@@ -144,7 +144,6 @@ useEffect(() => {
         }
       });
 
-      // Atualiza dados apenas se houver alterações
       if (Object.keys(userUpdates).length > 0) {
         console.log('Atualizando dados do usuário:', userUpdates);
         await updateUserData(userCode, userUpdates);
@@ -155,7 +154,6 @@ useEffect(() => {
         await updateEnterprise(userData.id_enterprise, enterpriseUpdates);
       }
 
-      // Atualiza estados após sucesso
       setInitialUserData(userData);
       setInitialEnterpriseData(enterpriseData);
       setHasChanges(false);
@@ -164,7 +162,6 @@ useEffect(() => {
       console.log('Dados atualizados com sucesso');
     } catch (error) {
       console.error("Erro ao atualizar dados:", error);
-      // Aqui você pode adicionar um tratamento de erro para o usuário
     }
   };
 
@@ -194,7 +191,8 @@ useEffect(() => {
             hasChanges={hasChanges}
           />
         </div>
-        <BenefitsAndProgress beneficios={[]} pontos={pontos} />
+        {/* Passa o userId para BenefitsAndProgress */}
+        <BenefitsAndProgress userId={userId} beneficios={[]} />
       </div>
     </>
   );
