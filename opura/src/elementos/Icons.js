@@ -26,6 +26,7 @@ import CaretLeftIcon from '../../public/icons/setas/Caret left.svg';
 import CaretRightIcon from '../../public/icons/setas/Caret right.svg';
 import CaretUpIcon from '../../public/icons/setas/Caret up.svg';
 import Calendario from '../../public/icons/acoes/calendario.svg';
+import logoVertical from '../../public/midia/logotipo-vertical.svg';
 
 // Mapeando os ícones para names de fácil acesso
 const icons = {
@@ -54,6 +55,7 @@ const icons = {
     caretRight: CaretRightIcon,
     caretUp: CaretUpIcon,
     caledario: Calendario,
+    logoVertical: logoVertical,
 };
 
 // Componente Icon para utilizar os SVGs
