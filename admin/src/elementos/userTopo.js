@@ -106,7 +106,7 @@ export default function UserTopo({ userId }) {
           {/* Column 1 */}
           <div className="w-1/2 flex md:flex-row flex-col gap-2">
             <div className="w-2/3 flex items-center justify-start gap-2">
-                <img src="../midia/avatar.webp" className="w-16" alt="avatar de parceiros" /> 
+                <img src="../midia/avatar.webp" className="w-16 rounded-full" alt="avatar de parceiros" /> 
                 <h5>{user ? user.name : 'Carregando...'}</h5>
             </div>
 
