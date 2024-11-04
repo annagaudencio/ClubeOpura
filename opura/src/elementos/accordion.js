@@ -14,7 +14,7 @@ function AccordionItem({ title, content }) {
         className="flex justify-between items-center p-4 cursor-pointer"
         onClick={toggleAccordion}
       >
-        <h5 className="text-[var(--color-preto)] font-semibold">{title}</h5>
+        <h5 className="text-[var(--color-preto)] font-semibold leading-[18px]">{title}</h5>
         <svg
           className={`w-4 h-4 transform ${isOpen ? 'rotate-180' : ''}`}
           fill="none"

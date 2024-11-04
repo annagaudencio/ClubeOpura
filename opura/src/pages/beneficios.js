@@ -73,7 +73,7 @@ export default function BeneficiosPage() {
           <div className="w-full flex-wrap md:flex-nowrap justify-between items-center inline-flex p-8 gap-8">
             <h1 className="text-3xl font-bold md:w-[50%]">Benefícios</h1>
             <p className='md:text-right md:w-[30%] md:w-[50%] text-sm text-[var(--color-cinza)]'>
-              Pequeno texto explicando quando o usuário poderá resgatar o benefício
+              Conheça nossos beneficios.
             </p>
           </div>
 

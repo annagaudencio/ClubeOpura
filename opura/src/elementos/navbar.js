@@ -71,7 +71,7 @@ const Navbar = () => {
           <a href="sobre" className="link-nav-2 w-full text-left">Sobre</a>
           <a className="link-nav-2 w-full text-left" onClick={openPopup}>Histórico</a>
           <a onClick={() => setIsAjudaOpen(true)} className="link-nav-2 w-full text-left">Ajuda</a> 
-          <a href="https://wa.me/5581992237827" className="link-nav-2 w-full text-left">Fale Conosco</a>
+          <a href="https://wa.me/5581992237827" target="_blank" className="link-nav-2 w-full text-left">Fale Conosco</a>
           
           <div className='pt-2'><a onClick={handleLogout} className="link-nav-2 w-full text-left cursor-pointer">Sair</a></div>
         </div>
@@ -97,7 +97,7 @@ const Navbar = () => {
           </div>
           <div className='p-4 flex-col justify-center items-start gap-4 inline-flex'>
             <a onClick={() => setIsAjudaOpen(true)} className='links-menu-mob'>Ajuda</a>
-            <a href='https://wa.me/5581992237827' className='links-menu-mob'>Fale Conosco</a>
+            <a href='https://wa.me/5581992237827' target="_blank" className='links-menu-mob'>Fale Conosco</a>
           </div>
           <div className='p-4 flex-col justify-center items-start gap-4 inline-flex'>
             <a href='/' className='links-menu-mob'>Sair</a> 

@@ -4,7 +4,7 @@ import Head from 'next/head';
 import { login } from '/services/auth';
 import LoginForm from '../formularios/LoginForm';
 import PasswordRecovery from '../formularios/PasswordRecovery';
-import Icon from '@/elementos/Icons';
+import Icon from '../elementos/Icons';
 
 export default function Login() {
   const [email, setEmail] = useState('');

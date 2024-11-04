@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { getUserRedeemedBenefits } from '/services/benefits';
-import Icon from '@/elementos/Icons';
+import Icon from '../elementos/Icons';
 
 const BeneficiosResgatados = ({ userId }) => {
   const [redeemedBenefits, setRedeemedBenefits] = useState([]);

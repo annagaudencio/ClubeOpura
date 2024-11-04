@@ -15,8 +15,8 @@ export default function Home() {
       {/* Coluna 1 */}
       <div className="md:h-screen md:w-1/3 h-[30vh] md:order-1 order-2 p-6 md:py-14 md:pr-6 md:pl-14 flex-col justify-between items-start inline-flex">
         <div className="w-full flex-col gap-6 inline-flex">
-          <h2 className="text-2xl font-medium uppercase tracking-widest">Indique & desfrute de benefícios exclusivos.</h2>
-          <p>Ganhe Benefícios Exclusivos com o Clube Ópura: Cadastre-se Agora!</p>
+          <h2 className="text-2xl font-medium uppercase tracking-widest">Seja parceiro Ópura & ganhe benefícios únicos</h2>
+          <p>O Clube Ópura é muito mais que um programa de pontos: Cadastre-se agora!</p>
         </div>
 
         {/* Chamadas de ação */}
