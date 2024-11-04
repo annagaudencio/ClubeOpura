@@ -56,7 +56,7 @@ export default function UserForm({
 
 
   return (
-    <form onSubmit={handleSubmit} className='md:h-[75%] h-fit md:overflow-y-auto bg-[var(--color-background)] rounded-[32px] p-8'>
+    <form onSubmit={handleSubmit} className='md:h-3/4 h-fit md:overflow-y-auto bg-[var(--color-background)] rounded-[32px] p-8'>
       {/* Dados do Usuário */}
       <div className='form-perfil'>
         <h3 className='text-center text-lg'>Sobre você</h3>
