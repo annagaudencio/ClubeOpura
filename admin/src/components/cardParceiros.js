@@ -1,12 +1,12 @@
 import Link from 'next/link';
-import Image from 'next/image'
+//import Image from 'next/image'
 
 export default function ParceirosCard({ numParceiros }) {
   return (
     <Link href="/parceiros" legacyBehavior>
       <div className="cards bg-[url('/midia/textura.svg')] bg-white/[12%] bg-cover backdrop-blur-xl w-full h-2/4 rounded-[32px] border border-white/[8%] p-8 flex-col justify-between items-between gap-3 inline-flex">
         <div className="min-h-20 flex justify-between items-center inline-flex">
-          <Image src="/midia/avatar.webp" className="w-16 rounded-full" alt="avatar de parceiros" />
+          <img src="/midia/avatar.webp" className="w-16 rounded-full" alt="avatar de parceiros" />
           <h3 className="text-xl text-[var(--color-primaria)] w-1/2 uppercase text-right">Arquitetos Parceiros</h3>
         </div>
         <div className="min-h-20 flex justify-between items-center inline-flex">

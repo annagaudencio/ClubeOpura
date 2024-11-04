@@ -1,12 +1,12 @@
 import Link from 'next/link';
-import Image from 'next/image'
+//import Image from 'next/image'
 
 export default function BeneficiosCard() {
   return (
     <Link href="/beneficios" legacyBehavior>
       <div className="cards bg-[url('/midia/textura.svg')] bg-white/[12%] bg-cover backdrop-blur-xl w-full h-2/4 overflow-clip rounded-[32px] border border-white/[8%] p-8 flex-col justify-between items-between gap-3 inline-flex">
         <div className="absolute w-1/2 -left-16">
-          <Image src="/midia/beneficios-marmore.webp" alt="Imagem de benefícios" />
+          <img src="/midia/beneficios-marmore.webp" alt="Imagem de benefícios" />
         </div>
         <div className="h-full flex-col justify-between items-end inline-flex">
           <h3 className="text-xl text-[var(--color-primaria)] w-1/2 uppercase text-right">Benefícios</h3>

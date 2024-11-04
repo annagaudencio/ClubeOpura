@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Image from 'next/image';
+//import Image from 'next/image';
 import imageCompression from 'browser-image-compression';
 import Icon from "../elementos/Icons";
 import axios from 'axios';
@@ -38,7 +38,7 @@ const BeneficioImg = ({ imagem, onImagemChange, beneficioId }) => {
 
     return (
         <div className="w-full md:w-1/2 md:h-full bg-white rounded-[32px] self-stretch grow relative">
-            <Image
+            <img
                 src={imageUrl}
                 alt="Imagem do Benefício"
                 className="w-full h-full object-cover rounded-[32px]"
