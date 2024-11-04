@@ -1,14 +1,12 @@
 import { useState, useEffect } from 'react';
-
 import React from 'react';
 import Head from "next/head";
 import Navbar from "../components/navbar";
-
 import Link from 'next/link';
 import BeneficioCard from '../components/listaBeneficios';
 import { fetchBenefits } from '/services/benefits';
 
-const beneficios = () => {
+const Beneficios = () => {
   const [beneficios, setBeneficios] = useState([]);  
   const [error, setError] = useState(null);
 
@@ -27,28 +25,27 @@ const beneficios = () => {
     loadBenefits(); 
   }, []);
 
-
   return (
     <>
-    <Head>
-      <title>Beneficios</title>
-    </Head>
-    <Navbar />
+      <Head>
+        <title>Beneficios</title>
+      </Head>
+      <Navbar />
 
-    <div className="main-content md:p-2 overflow-clip">
-      <div className="conteudo p-4">
-        {/* Topo */}
-        <div className="w-full p-8 justify-between items-center inline-flex">
+      <div className="main-content md:p-2 overflow-clip">
+        <div className="conteudo p-4">
+          {/* Topo */}
+          <div className="w-full p-8 justify-between items-center inline-flex">
             <h3 className="text-[24px] md:text-[32px] text-[var(--color-primaria)]">Beneficios</h3>
             <Link href="/addBeneficio">
               <button className="bt-marrom justify-center items-center gap-2 inline-flex">Adicionar</button>
             </Link>
-        </div> 
+          </div> 
 
-        {error && <p>{error}</p>}
+          {error && <p>{error}</p>}
 
-        {/* Lista de beneficios */}
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-2 p-8">
+          {/* Lista de beneficios */}
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-2 p-8">
             {beneficios.map((beneficio) => (
               <BeneficioCard
                 key={beneficio.id}
@@ -58,10 +55,10 @@ const beneficios = () => {
               />
             ))}
           </div>
+        </div>
       </div>
-    </div>
     </>
   );
 };
 
-export default beneficios;
+export default Beneficios;
