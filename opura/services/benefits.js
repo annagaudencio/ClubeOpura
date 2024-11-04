@@ -1,36 +1,52 @@
-import api from './api';
+import api from "./api";
 
 // Função para obter todos os benefícios disponíveis
 export const getBenefits = async () => {
   try {
-    const token = localStorage.getItem('token'); // Verifica se o token está armazenado
+    const token = localStorage.getItem("token"); // Verifica se o token está armazenado
     if (!token) {
-      throw new Error('Token não encontrado. Por favor, faça login novamente.');
+      throw new Error("Token não encontrado. Por favor, faça login novamente.");
     }
 
-    const response = await api.get('/benefits');
-    return response.data;  // Retorna todos os benefícios
+    const response = await api.get("/benefits");
+    return response.data; // Retorna todos os benefícios
   } catch (error) {
-    console.error('Erro ao obter os benefícios:', error);
+    console.error("Erro ao obter os benefícios:", error);
     if (error.response && error.response.status === 401) {
-      alert('Sessão expirada. Por favor, faça login novamente.');
+      alert("Sessão expirada. Por favor, faça login novamente.");
     }
     throw error;
   }
 };
 
 // Função para obter benefícios resgatados de um usuário específico
-export const getUserRedeemedBenefits = async () => { // Removendo userId temporariamente
+export const getUserRedeemedBenefits = async () => {
+  // Removendo userId temporariamente
   try {
-    const response = await api.get('/redeemedBenefits');
-    console.log("Resposta da API para benefícios resgatados (sem filtro de id_user):", response.data);
-    return response.data;
+    const response = await api.get("/redeemedBenefits");
+    console.log(
+      "Resposta da API para benefícios resgatados (sem filtro de id_user):",
+      response.data
+    );
+
+    const promises = response.data.map(async (element) => {
+      try {
+        const benefit = await api.get("/benefits/" + element.id_benefits);
+        const redeemedBenefits = { ...element, title: benefit.data.title };
+        return redeemedBenefits;
+      } catch (error) {
+        console.error("Erro ao buscar benefit:", error);
+        return null;
+      }
+    });
+
+    const data = await Promise.all(promises);
+    return data;
   } catch (error) {
-    console.error('Erro ao obter os benefícios resgatados:', error);
+    console.error("Erro ao obter os benefícios resgatados:", error);
     throw error;
   }
 };
-
 
 // Função para obter os benefícios, marcando os já resgatados pelo usuário logado
 export const getUserBenefits = async (userId) => {
@@ -41,24 +57,26 @@ export const getUserBenefits = async (userId) => {
     ]);
 
     // Obter IDs dos benefícios já resgatados
-    const redeemedIds = new Set(redeemedBenefits.map((item) => item.id_benefits));
+    const redeemedIds = new Set(
+      redeemedBenefits.map((item) => item.id_benefits)
+    );
 
     // Mapear todos os benefícios, adicionando uma flag para os resgatados
     const benefitsWithRedeemedStatus = allBenefits.map((benefit) => ({
       ...benefit,
-      redeemed: redeemedIds.has(benefit.id),  // Marca como resgatado se o ID estiver em redeemedIds
+      redeemed: redeemedIds.has(benefit.id), // Marca como resgatado se o ID estiver em redeemedIds
     }));
 
     return benefitsWithRedeemedStatus;
   } catch (error) {
-    console.error('Erro ao obter os benefícios do usuário:', error);
+    console.error("Erro ao obter os benefícios do usuário:", error);
     throw error;
   }
 };
 
 export const redeemBenefit = async (benefitId, userId, pointsUsed) => {
   try {
-    const response = await api.post('/redeemedBenefits', {
+    const response = await api.post("/redeemedBenefits", {
       id_user: userId,
       id_benefits: benefitId,
       rescued_date: new Date().toISOString(),
@@ -67,7 +85,10 @@ export const redeemBenefit = async (benefitId, userId, pointsUsed) => {
     console.log("Resgate de benefício realizado com sucesso:", response.data);
     return response.data;
   } catch (error) {
-    console.error("Erro ao resgatar benefício:", error.response?.data || error.message);
+    console.error(
+      "Erro ao resgatar benefício:",
+      error.response?.data || error.message
+    );
     throw error;
   }
 };
