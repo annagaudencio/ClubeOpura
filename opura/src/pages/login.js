@@ -57,7 +57,8 @@ export default function Login() {
         
         {/* Coluna 2 - imagem */}
         <div className="relative md:h-screen md:w-2/3 h-[70vh] md:order-2 order-1 p-3">
-          <div className="absolute bottom-0 right-0 p-8 "><Icon name="logoVertical" className="h-64" /></div>
+          <div className="absolute bottom-0 right-0 p-8 z-40"><Icon name="logoVertical" className="h-64" /></div>
+          {/* <div className='w-full h-full bg-gradient-to-t from-[#eee5d3] rounded-[32px] absolute'></div> */}
           <img className="w-full h-[100%] object-cover" src="/midia/img-login.webp" alt="imagem de olá" />
         </div>
       </div>
