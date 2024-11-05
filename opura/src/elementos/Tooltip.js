@@ -41,6 +41,8 @@ function FixedTooltip({ title, body, position = "bottom" }) {
     }
   };
 
+  
+
   return (
     <div className="relative">
       {renderSVG()}

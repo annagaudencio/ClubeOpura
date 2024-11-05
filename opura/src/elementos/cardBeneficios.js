@@ -30,6 +30,18 @@ export default function CardBeneficios({ titulo, descricao, pontos, bgImage, pon
   const pontosRestantes = Math.max(pontos - pontosUsuario, 0);
   const disponivelParaResgate = pontosUsuario >= pontos;
 
+  //redução de numeros com mais de 6 digitos
+  function formatNumber(num) {
+    if (num >= 1000000) {
+      return (num / 1000000).toFixed(num % 1000000 === 0 ? 0 : 1) + 'M';
+    } else if (num >= 1000) {
+      return (num / 1000).toFixed(num % 1000 === 0 ? 0 : 1) + 'K';
+    } else {
+      return num.toString();
+    }
+  }
+  
+
   return (
     <div className="w-full min-w-72 min-h-[500px] max-w-xs bg-transparent rounded-[32px] overflow-hidden">
       <div
@@ -47,7 +59,8 @@ export default function CardBeneficios({ titulo, descricao, pontos, bgImage, pon
         {!disponivelParaResgate && (
           <div className="absolute bottom-4 left-4 right-4 flex justify-between items-center text-sm text-[var(--color-links)] px-2">
             <span>Faltam</span>
-            <span className="font-bold">{pontosRestantes}</span>
+            {/* <span className="font-bold">{pontosRestantes}</span> */}
+            <span className="font-bold">{formatNumber(pontosRestantes)}</span>
             <span>Pontos</span>
           </div>
         )}
@@ -56,7 +69,8 @@ export default function CardBeneficios({ titulo, descricao, pontos, bgImage, pon
         <div className='w-full justify-start items-center gap-2 inline-flex'>
           <h6 className="w-2/3 text-[18px]">{titulo}</h6>
           <div className='w-1/3 justify-end items-center gap-1 inline-flex'>
-            <span className="font-bold text-lg">{pontos}</span> 
+            {/* <span className="font-bold text-lg">{pontos}</span>  */}
+            <span className="font-bold text-lg">{formatNumber(pontos)}</span>
             <span className="ml-1">★</span>
           </div>
         </div>

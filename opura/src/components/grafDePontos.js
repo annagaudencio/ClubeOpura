@@ -2,7 +2,7 @@ import React from 'react';
 import Tooltip from '../elementos/Tooltip.js';
 
 const UserPointsChart = ({ pontosAtual }) => { 
-  const pontosTotais = 500; // Definindo pontosTotais como 500 diretamente aqui
+  const pontosTotais = 300000; // Definindo pontosTotais como 500 diretamente aqui
 
   // Verificação dos valores no console para garantir que estão corretos
   console.log("Pontos Atual:", pontosAtual);
@@ -11,6 +11,19 @@ const UserPointsChart = ({ pontosAtual }) => {
   // Cálculo correto do percentual com base no total de pontos e pontos atuais
   const percent = Math.min((pontosAtual / pontosTotais) * 100, 100); 
   console.log("Percentual calculado:", percent);
+
+  //reduzir numeros com mais de 6 digitos
+  function formatNumber(num) {
+    if (num >= 1000000) {
+      return (num / 1000000).toFixed(num % 1000000 === 0 ? 0 : 1) + 'M';
+    } else if (num >= 1000) {
+      return (num / 1000).toFixed(num % 1000 === 0 ? 0 : 1) + 'K';
+    } else {
+      return num.toString();
+    }
+  }
+  
+  
 
   return (
     <div className='w-full relative'>
@@ -35,7 +48,8 @@ const UserPointsChart = ({ pontosAtual }) => {
         <div className='w-[91px]'>
           <Tooltip 
             type="fixed" 
-            title={`${pontosAtual}`} 
+            //title={`${pontosAtual}`} 
+            title={`${formatNumber(pontosAtual)}`} 
             body="Pontos" 
             position="top" 
           />
