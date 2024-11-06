@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import Head from 'next/head';
 import Navbar from '../components/navbar';
-import ListaDeBeneficios from '../components/listabeneficios';
+import ListaBeneficiosUsuario from '../components/listabeneficios';
 import { getBenefits } from '/services/benefits';
 import { getUserPoints } from '/services/points';
 import Icon from '../elementos/Icons';
@@ -10,7 +10,8 @@ export default function BeneficiosPage() {
   const [cards, setCards] = useState([]);
   const [pontosUsuario, setPontosUsuario] = useState(0);
   const scrollRef = useRef(null);
-
+  const [idUserRegistered, setIdUserRegistered] = useState(null);
+  
   useEffect(() => {
     // Função para buscar benefícios e pontos do usuário
     const fetchData = async () => {
@@ -86,7 +87,7 @@ export default function BeneficiosPage() {
             onMouseLeave={handleMouseUp}
             onMouseUp={handleMouseUp}
           >
-            <ListaDeBeneficios pontosUsuario={pontosUsuario} cards={cards} />
+            <ListaBeneficiosUsuario pontosUsuario={pontosUsuario} userId={idUserRegistered} />
           </div>
           <div className="flex justify-between space-x-4 mt-4 px-8 pb-24 md:pb-8 ">
             <button onClick={scrollLeft} className="bt-icon">

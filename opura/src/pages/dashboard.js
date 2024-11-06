@@ -43,6 +43,7 @@ export default function Dashboard() {
         .catch((error) => console.error("Erro ao obter pontos do usuário:", error));
     }
   }, [idUserRegistered]);
+  
   // Funções para rolagem de cards de benefícios
   const handleMouseDown = (e) => {
     e.preventDefault();
@@ -96,17 +97,17 @@ export default function Dashboard() {
           
           <div 
             ref={scrollRef}
-            className="w-full px-8 scroll-container overflow-x-auto flex space-x-4"
+            className="w-full px-8 scroll-container overflow-x-auto flex space-x-4 md:cursor-grab"
             onMouseDown={handleMouseDown}
             onMouseMove={handleMouseMove}
             onMouseLeave={handleMouseUp}
             onMouseUp={handleMouseUp}
           >
-            {/* <ListaBeneficiosUsuario pontosUsuario={pontosUsuario}  /> */}
+            
             <ListaBeneficiosUsuario pontosUsuario={pontosUsuario} userId={idUserRegistered} />
           </div>
 
-          <div className="flex justify-between space-x-4 mt-4 px-8 pb-24 ">
+          <div className="flex justify-between space-x-4 mt-4 px-8 pb-24">
             <button onClick={scrollLeft} className="bt-icon">
               <Icon name="arrowLeft" />
             </button>
