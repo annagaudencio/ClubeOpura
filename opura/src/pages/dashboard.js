@@ -102,7 +102,8 @@ export default function Dashboard() {
             onMouseLeave={handleMouseUp}
             onMouseUp={handleMouseUp}
           >
-            <ListaBeneficiosUsuario pontosUsuario={pontosUsuario} />
+            {/* <ListaBeneficiosUsuario pontosUsuario={pontosUsuario}  /> */}
+            <ListaBeneficiosUsuario pontosUsuario={pontosUsuario} userId={idUserRegistered} />
           </div>
 
           <div className="flex justify-between space-x-4 mt-4 px-8 pb-24 md:pb-8 ">

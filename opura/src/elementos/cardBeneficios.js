@@ -40,6 +40,8 @@ export default function CardBeneficios({ titulo, descricao, pontos, bgImage, pon
       return num.toString();
     }
   }
+
+  console.log("Valor de userId no componente pai:", userId);
   
 
   return (

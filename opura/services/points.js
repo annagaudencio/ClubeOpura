@@ -32,27 +32,29 @@ export const getUserPoints = async (id_user_registered) => {
   }
 };
 
+
+
 export const fetchUserPoints = async (userId) => {
   try {
     const response = await api.get(`/points`, {
       params: { id_user: userId },
     });
     
-    console.log('Resposta completa da API para pontos:', response.data);  // Log para verificar a resposta da API
-    
+    console.log('Resposta completa da API para pontos:', response.data);
+
     if (response && response.data && Array.isArray(response.data)) {
-      // Verifica se o usuário está no array de resposta
-      const userPointsData = response.data.find(pointData => pointData.id_user === userId);
-      
-      if (userPointsData) {
-        return userPointsData.points;  // Retorna os pontos encontrados
+      // Filtra os pontos do usuário com base no ID
+      const userPointsData = response.data.filter(pointData => pointData.id_user_registered === userId);
+
+      if (userPointsData.length > 0) {
+        return userPointsData;  // Retorna os pontos encontrados
       } else {
         console.error('Pontos para o usuário não encontrados na resposta da API');
-        return 0;  // Retorna 0 se o usuário não for encontrado
+        return [{ points: 0 }];  // Retorna 0 se o usuário não for encontrado
       }
     } else {
       console.error('Resposta inesperada da API');
-      return 0;  // Retorna 0 se não houver dados
+      return [{ points: 0 }];  // Retorna 0 se não houver dados
     }
   } catch (error) {
     console.error('Erro ao buscar pontos do usuário:', error);
@@ -78,21 +80,21 @@ export const createUserPoints = async (id_user_registered) => {
 };
 
 
-
-export const updateUserPoints = async (userId, newPoints) => {
+// Função para atualizar os pontos de um usuário com base no id_user_registered
+export const updateUserPoints = async (pointId, newPoints) => {
   try {
-    if (!userId) {
-      throw new Error("ID do usuário não fornecido para atualização de pontos.");
+    if (!pointId) {
+      throw new Error("ID do ponto não fornecido para atualização de pontos.");
     }
-    await api.put(`/points/${userId}`, { points: newPoints });
-    console.log('Pontos atualizados com sucesso:', newPoints);
+
+    // Realiza a requisição PUT para atualizar o ponto com o novo valor de pontos
+    const response = await api.put(`/points/${pointId}`, { points: newPoints });
+    console.log('Pontos atualizados com sucesso:', response.data);
   } catch (error) {
     console.error('Erro ao atualizar pontos do usuário:', error.response?.data || error.message);
     throw error;
   }
 };
-
-
 
 
 
