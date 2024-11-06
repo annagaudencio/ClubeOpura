@@ -85,8 +85,8 @@ export default function ListaBeneficiosUsuario({ pontosUsuario, userId }) {
   }, [userId]);
 
   return (
-    <div className="p-0 h-full flex justify-start items-center">
-      <div className="flex justify-start items-center gap-4 inline-flex">
+    <div className="p-0 h-fit flex justify-start items-center">
+      <div className="flex justify-start items-start gap-4 inline-flex">
         {benefits.map((card) => (
           <CardBeneficios 
             key={card.id}

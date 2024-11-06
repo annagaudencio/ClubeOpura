@@ -106,7 +106,7 @@ export default function Dashboard() {
             <ListaBeneficiosUsuario pontosUsuario={pontosUsuario} userId={idUserRegistered} />
           </div>
 
-          <div className="flex justify-between space-x-4 mt-4 px-8 pb-24 md:pb-8 ">
+          <div className="flex justify-between space-x-4 mt-4 px-8 pb-24 ">
             <button onClick={scrollLeft} className="bt-icon">
               <Icon name="arrowLeft" />
             </button>

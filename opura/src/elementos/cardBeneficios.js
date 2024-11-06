@@ -89,6 +89,7 @@
 //   );
 // }
 
+//Com a alternativa de card ocultado quando houver resgate.ß
 import React, { useState, useEffect } from 'react';
 import ResgateModal from './ResgateModal';
 import api from '/services/api'; 
@@ -133,9 +134,9 @@ export default function CardBeneficios({ titulo, descricao, pontos, bgImage, pon
   }
 
   return (
-    <div className="w-full min-w-72 min-h-[500px] max-w-xs bg-transparent rounded-[32px] overflow-hidden relative">
+    <div className="w-full min-w-72 max-w-xs bg-transparent rounded-[32px] overflow-hidden relative">
       <div
-        className={`min-h-80 bg-gray-200 rounded-[32px] p-4 relative ${isResgatado ? 'opacity-50' : ''}`}
+        className={`min-h-80 bg-gray-200 rounded-[32px] p-4 relative ${isResgatado ? 'opacity-25' : ''}`}
         style={{
           backgroundImage: `linear-gradient(180deg, rgba(241, 240, 234, 0.00) 40%, #F1F0EA 100%), url(${bgImage})`,
           backgroundSize: 'cover',
@@ -154,8 +155,8 @@ export default function CardBeneficios({ titulo, descricao, pontos, bgImage, pon
           </div>
         )}
       </div>
-      <div className="p-4">
-        <div className={`w-full justify-start items-center gap-2 inline-flex ${isResgatado ? 'opacity-50' : ''}`}>
+      <div className={`p-4 ${isResgatado ? 'opacity-25' : ''}`}>
+        <div className="w-full justify-start items-center gap-2 inline-flex">
           <h6 className="w-2/3 text-[18px]">{titulo}</h6>
           <div className='w-1/3 justify-end items-center gap-1 inline-flex'>
             <span className="font-bold text-lg">{formatNumber(pontos)}</span>
@@ -167,7 +168,7 @@ export default function CardBeneficios({ titulo, descricao, pontos, bgImage, pon
 
       {isResgatado && (
         <div className="absolute inset-0 flex items-center justify-center bg-[var(--color-background)]/50 rounded-[32px]">
-          <h3 className="text-lg font-semibold text-[var(--color-links)] text-center">BENEFÍCIO RESGATADO 🥳</h3>
+          <h3 className="text-lg text-[var(--color-links)] text-center">Benefício<br/>Resgatado<br/>🥳</h3>
         </div>
       )}
 
