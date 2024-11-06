@@ -31,8 +31,8 @@ export default function Home() {
 
       {/* Coluna 2 - imagem */}
       <div className="relative md:h-screen md:w-2/3 h-[70vh] md:order-2 order-1 p-3">
-        <div className="absolute bottom-0 left-0 p-8">
-          <Icon name="logoVertical" className="h-64 text-[var(--color-principal)]" />
+        <div className="absolute top-0 right-0 p-8">
+          <Icon name="logoHorizontal" className="w-full text-[var(--color-principal)]" />
         </div>
           
         <img className="w-full h-[100%] object-cover" src="/midia/img-ola.webp" alt="imagem de olá" />
