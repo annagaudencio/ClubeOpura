@@ -92,3 +92,14 @@ export const redeemBenefit = async (benefitId, userId, pointsUsed) => {
     throw error;
   }
 };
+
+//filtrar o que foi resgatado
+export const getRedeemedBenefits = async () => {
+  try {
+    const response = await api.get('/redeemedBenefits');
+    return response.data;
+  } catch (error) {
+    console.error("Erro ao obter benefícios resgatados:", error);
+    throw error;
+  }
+};
