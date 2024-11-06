@@ -82,28 +82,7 @@ export const deleteBenefit = async (id) => {
   }
 };
 
-// export const updateBenefit = async (id, beneficio) => {
-//   try {
-//     const token = localStorage.getItem('access_token');
-//     if (!token) {
-//       throw new Error('Token não encontrado. Faça o login novamente.');
-//     }
 
-//     const config = {
-//       headers: {
-//         Authorization: `Bearer ${token}`,
-//         'Content-Type': 'application/json',
-//       },
-//     };
-
-//     const response = await axios.put(`/api/benefits/${id}`, beneficio, config);
-//     console.log('Resposta completa do backend:', response);
-//     return response.data;
-//   } catch (error) {
-//     console.error('Erro ao atualizar benefício:', error.response ? error.response.data : error.message);
-//     throw error;
-//   }
-// };
 export const updateBenefit = async (id, beneficio) => {
   try {
     const token = localStorage.getItem('access_token');
@@ -122,6 +101,41 @@ export const updateBenefit = async (id, beneficio) => {
     return response.data;
   } catch (error) {
     console.error('Erro ao atualizar benefício:', error.response ? error.response.data : error.message);
+    throw error;
+  }
+};
+
+// Função para obter benefícios resgatados de um usuário específico
+export const getUserRedeemedBenefits = async (userId) => {
+  try {
+    const token = localStorage.getItem('access_token');
+    if (!token) {
+      throw new Error('Token não encontrado. Faça o login novamente.');
+    }
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    };
+
+    // Filtra os benefícios resgatados pelo ID do usuário
+    const response = await axios.get(`/api/redeemedBenefits?user_id=${userId}`, config);
+
+    const promises = response.data.map(async (element) => {
+      try {
+        const benefit = await axios.get(`/api/benefits/${element.id_benefits}`, config);
+        return { ...element, title: benefit.data.title };
+      } catch (error) {
+        console.error("Erro ao buscar benefício:", error);
+        return null;
+      }
+    });
+
+    const data = await Promise.all(promises);
+    return data.filter((benefit) => benefit !== null); // Remove valores nulos
+  } catch (error) {
+    console.error("Erro ao obter os benefícios resgatados:", error);
     throw error;
   }
 };
