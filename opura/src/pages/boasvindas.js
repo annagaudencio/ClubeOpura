@@ -22,12 +22,12 @@ export default function WelcomePage() {
         <h1 className='w-full max-w-xl text-center md:text-[96px] text-[32px] rounded-3xl absolute md:relative z-10 py-8 md:p-0 bg-gradient-to-b from-black from-0% md:bg-transparent md:from-transparent'>Olá</h1>
       {/* Seção do Vídeo */}
       <div className="w-full max-w-xl p-0 md:p-8 relative h-[90%] md:h-auto">
-        <div className="relative w-full bg-black h-full md:h-96 rounded-3xl overflow-hidden flex justify-center items-center">
+        <div className="relative w-full bg-black h-full md:h-[700px] rounded-3xl overflow-hidden flex justify-center items-center">
           {/* Vídeo */}
           <video
             ref={videoRef} 
             className="video-bv"
-            src="/midia/video-de-boas-vindas.mp4"
+            src="https://opuramarmores.com/videos/bg-topo.mp4"
             title="Vídeo de Boas-Vindas"
             // muted
             onEnded={() => setIsPlaying(false)} 
