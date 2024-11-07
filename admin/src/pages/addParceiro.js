@@ -32,7 +32,7 @@ export default function NovoParceiro() {
         <div className="w-full h-full bg-[var(--color-bg-preto)] rounded-[32px] p-8 overflow-clip overflow-y-auto pb-48">
           <div className="w-full justify-between items-center inline-flex">
             <h3 className="text-[24px] md:text-[32px] text-[var(--color-secundaria)]">Novo Parceiro</h3>
-            <img src="./midia/avatar.webp" className="w-16" alt="avatar de parceiros" />
+            <img src="./midia/avatar.webp" className="w-16 rounded-full" alt="avatar de parceiros" />
           </div>
           <CadastroForm onSubmit={handleCadastro} />
         </div>
