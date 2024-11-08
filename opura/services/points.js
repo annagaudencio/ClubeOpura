@@ -67,7 +67,7 @@ export const createUserPoints = async (id_user_registered) => {
   try {
     const response = await api.post('/points', {
       id_user_registered: id_user_registered, // Usa o id_user_registered diretamente
-      points: 5, // Adiciona os pontos de brinde ao realizar cadastro
+      points: 0, // Quantidade de pontos ao se cadastrar
       are_expired: false,
       were_rescued: false,
       rescued_date: null
