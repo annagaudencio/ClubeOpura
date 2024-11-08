@@ -19,7 +19,7 @@ const BeneficioCard = ({ id, titulo, pontos }) => {
         <img 
           src={`https://opuramarmores.com/benef-img/${id}.webp`} 
           alt={titulo} 
-          className="w-full h-[200px] object-cover"
+          className="w-full h-[300px] object-cover"
           onError={(e) => {
             e.target.onerror = null; // Previne loop infinito
             e.target.src = '/midia/imagem.webp'; // Imagem padrão em caso de erro
