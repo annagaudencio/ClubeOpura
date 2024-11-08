@@ -27,7 +27,7 @@ export default function WelcomePage() {
           <video
             ref={videoRef} 
             className="video-bv"
-            src="https://opuramarmores.com/videos/bg-topo.mp4"
+            src="https://opuramarmores.com/videos/boasvindas.mp4"
             title="Vídeo de Boas-Vindas"
             // muted
             onEnded={() => setIsPlaying(false)} 
