@@ -86,11 +86,12 @@ export default function ProgressContainer({ userId }) {
   return (
     <div className='w-full'>
       <h3 className='pb-4 text-center'>Saldo de pontos</h3>
-      <div className="w-full rounded-[32px] p-6 border border-[var(--color-cinza)] bg-white/[20%]">
+      {/* <div className="w-full rounded-[32px] p-6 border border-[var(--color-cinza)] bg-white/[20%]">
         <ProgressBar label="Pontos Ganhos" value={pontosGanhos} maxValue={pontosGanhos || 1} />
         <ProgressBar label="Pontos Resgatados" value={pontosResgatados} maxValue={pontosGanhos || 1} />
         <ProgressBar label="Pontos Restantes" value={pontosRestantes} maxValue={pontosGanhos || 1} />
-      </div>
+      </div> */}
+      <p>Em breve...</p>
     </div>
   );
 }
