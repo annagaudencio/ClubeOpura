@@ -37,12 +37,13 @@ const UserResgates = ({ userId }) => {
                 <h5 className='text-center border-b pb-4'>Benefícios Resgatados</h5>
                 <div className="py-8">
                     <ul className="space-y-4">
-                        {benefits.map((benefit) => (
+                        {/* {benefits.map((benefit) => (
                             <li key={benefit.id} className="flex justify-between items-center">
                                 <span className="text-[var(--color-primaria)]">{benefit.title}</span>
-                                <Icon name="check" className="w-6 h-6 text-[var(--color-primaria)]" /> {/* Ícone de verificação */}
+                                <Icon name="check" className="w-6 h-6 text-[var(--color-primaria)]" />
                             </li>
-                        ))}
+                        ))} */}
+                        <p>Em breve</p>
                     </ul>
                 </div>
             </div>
